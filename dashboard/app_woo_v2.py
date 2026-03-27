@@ -46,9 +46,23 @@ from config.settings import (
     get_missing_configuration,
     get_all_views_status,
     can_access_view,
-    get_missing_services_for_view,
     get_view_status
 )
+
+# ====== PLOTLY NEON THEME DEFAULTS ======
+import plotly.io as pio
+pio.templates["neon_glass"] = pio.templates["plotly_dark"]
+pio.templates["neon_glass"].layout.update({
+    "paper_bgcolor": "rgba(0,0,0,0)",
+    "plot_bgcolor": "rgba(0,0,0,0)",
+    "font": {"color": "#e2e8f0", "family": "DM Sans"},
+    "margin": {"t": 40, "b": 40, "l": 40, "r": 40},
+    "hoverlabel": {"bgcolor": "#1a1b1e", "bordercolor": "#2d2d30", "font": {"size": 13}},
+    "xaxis": {"gridcolor": "rgba(255,255,255,0.05)", "zeroline": False},
+    "yaxis": {"gridcolor": "rgba(255,255,255,0.05)", "zeroline": False},
+    "colorway": ["#00f2ff", "#b300ff", "#ff00ff", "#00ffb3", "#fbff00"]
+})
+pio.templates.default = "neon_glass"
 
 # Import TicketConfig with fallback
 try:
@@ -98,582 +112,357 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# ====== PREMIUM PROFESSIONAL THEME ======
+# ====== PREMIUM DARK GLASS THEME ======
 st.markdown("""
-<!-- Preconnect para optimización de carga -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
-<!-- Recursos externos con swap para evitar FOIT -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
-    /* ========== PREMIUM VARIABLES ========== */
     :root {
-        --primary-color: #3B82F6;
-        --primary-light: #60A5FA;
-        --primary-dark: #2563EB;
-        --secondary-color: #A855F7;
-        --accent-purple: #8B5CF6;
-        --accent-cyan: #06B6D4;
-        --gradient-primary: linear-gradient(135deg, #3B82F6 0%, #8B5CF6 100%);
-        --gradient-accent: linear-gradient(135deg, #06B6D4 0%, #8B5CF6 100%);
-        --gradient-success: linear-gradient(135deg, #10B981 0%, #34D399 100%);
-        --gradient-warning: linear-gradient(135deg, #F59E0B 0%, #FBBF24 100%);
-        --text-color: #1E293B;
-        --text-gray: #64748B;
-        --text-light: #94A3B8;
-        --bg-color: #F8FAFC;
-        --card-bg: rgba(255, 255, 255, 0.85);
-        --sidebar-bg-color: #0F172A;
-        --glass-bg: rgba(255, 255, 255, 0.7);
-        --glass-border: rgba(255, 255, 255, 0.4);
+        --primary-neon: #00f2ff;
+        --secondary-neon: #b300ff;
+        --accent-pink: #ff00ff;
+        --bg-dark: #0b0c10;
+        --bg-sidebar: #050608;
+        --glass-bg: rgba(255, 255, 255, 0.03);
+        --glass-border: rgba(255, 255, 255, 0.08);
+        --glass-blur: blur(15px);
+        --text-main: #e2e8f0;
+        --text-muted: #94a3b8;
+        --shadow-neon: 0 0 15px rgba(0, 242, 255, 0.3);
     }
 
-    /* ========== ANIMATED BACKGROUND ========== */
     .stApp {
-        background: linear-gradient(135deg, #0a0a1a 0%, #0f0f2a 50%, #0a0a1a 100%);
-        background-attachment: fixed;
-        color: #FFFFFF;
+        background: var(--bg-dark);
+        color: var(--text-main);
         font-family: 'DM Sans', 'Inter', sans-serif !important;
-        position: relative;
-    }
-    
-    /* Eliminar decorativo de fondo que puede causar problemas */
-    /* .stApp::before eliminado para prevenir scroll infinito */
-    
-    /* Ensure main content is above background */
-    .stApp > [data-testid="stAppViewContainer"],
-    .main .block-container {
-        position: relative;
-        z-index: 1;
-    }
-    
-    /* Premium scrollbar */
-    ::-webkit-scrollbar { width: 8px; height: 8px; }
-    ::-webkit-scrollbar-track { 
-        background: linear-gradient(to bottom, #F4F7FE, #E8ECF7);
-        border-radius: 10px;
-    }
-    ::-webkit-scrollbar-thumb { 
-        background: var(--gradient-primary);
-        border-radius: 10px;
-        transition: all 0.3s ease;
-    }
-    ::-webkit-scrollbar-thumb:hover { 
-        background: var(--gradient-accent);
-        box-shadow: 0 0 10px rgba(67, 24, 255, 0.3);
     }
 
-    /* ========== PREMIUM TYPOGRAPHY ========== */
-    h1, h2, h3 {
-        font-family: 'DM Sans', sans-serif !important;
-        text-transform: capitalize;
-        letter-spacing: -0.02em;
-        line-height: 1.2;
-        word-wrap: break-word;
-        font-weight: 700;
-    }
-    
-    h1 {
-        background: var(--gradient-primary);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        font-size: clamp(1.5rem, 4vw, 3rem) !important;
-        margin-bottom: 0.5rem !important;
-        position: relative;
-    }
-    
-    @supports not (-webkit-background-clip: text) {
-        h1 {
-            color: var(--text-color);
-            -webkit-text-fill-color: unset;
-        }
-    }
-    
-    h2 { 
-        color: var(--text-color) !important;
-        font-size: clamp(1.2rem, 3vw, 2rem) !important;
-        margin-top: 1.5rem !important;
-        margin-bottom: 0.8rem !important;
-        position: relative;
-        display: inline-block;
-    }
-    
-    h2::after {
+    .stApp::before {
         content: "";
-        position: absolute;
-        bottom: -4px;
-        left: 0;
-        width: 60px;
-        height: 3px;
-        background: var(--gradient-primary);
-        border-radius: 3px;
-    }
-    
-    h3 { 
-        color: var(--text-color) !important;
-        font-size: clamp(1rem, 2.5vw, 1.5rem) !important;
-        margin-top: 1rem !important;
-        margin-bottom: 0.6rem !important;
-        font-weight: 600;
-    }
-    
-    h4 {
-        color: var(--text-gray) !important;
-        font-size: clamp(0.85rem, 2vw, 1.2rem) !important;
-        font-weight: 500;
-    }
-
-    /* ========== GLASSMORPHISM METRIC CARDS ========== */
-    div[data-testid="stMetric"] {
-        background: rgba(255, 255, 255, 0.08);
-        backdrop-filter: blur(20px) saturate(180%);
-        -webkit-backdrop-filter: blur(20px) saturate(180%);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 20px;
-        padding: 24px;
-        box-shadow: 
-            0 8px 32px rgba(0, 0, 0, 0.3),
-            inset 0 1px 0 rgba(255, 255, 255, 0.1);
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
-        position: relative;
-        overflow: hidden;
-        min-height: 120px;
-        margin-bottom: 1rem;
-    }
-    
-    div[data-testid="stMetric"]:hover {
-        transform: translateY(-4px);
-        box-shadow: 
-            0 12px 40px rgba(0, 0, 0, 0.4),
-            0 0 30px rgba(99, 102, 241, 0.1),
-            inset 0 1px 0 rgba(255, 255, 255, 0.15);
-        border-color: rgba(99, 102, 241, 0.3);
-    }
-    
-    div[data-testid="stMetric"] label {
-        color: rgba(255, 255, 255, 0.6) !important;
-        font-size: 0.75rem !important;
-        font-weight: 600;
-        line-height: 1.3;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-    }
-    
-    div[data-testid="stMetric"] div[data-testid="stMetricValue"] {
-        color: #FFFFFF !important;
-        font-size: 2rem !important;
-        font-weight: 800;
-        line-height: 1.1;
-        margin-top: 8px;
-        letter-spacing: -0.02em;
-    }
-
-    /* ========== PREMIUM CHART CONTAINERS ========== */
-    .stPlotlyChart {
-        background: rgba(255, 255, 255, 0.08);
-        backdrop-filter: blur(20px) saturate(180%);
-        -webkit-backdrop-filter: blur(20px) saturate(180%);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 20px;
-        padding: 24px;
-        box-shadow: 
-            0 8px 32px rgba(0, 0, 0, 0.3),
-            inset 0 1px 0 rgba(255, 255, 255, 0.1);
-        margin-bottom: 1.5rem;
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
-        overflow: visible !important;
-    }
-    
-    .stPlotlyChart > div,
-    .stPlotlyChart iframe,
-    .js-plotly-plot {
-        overflow: visible !important;
-        max-height: 100% !important;
-    }
-    
-    .stPlotlyChart:hover {
-        box-shadow: 
-            0 12px 40px rgba(0, 0, 0, 0.4),
-            0 0 30px rgba(99, 102, 241, 0.1),
-            inset 0 1px 0 rgba(255, 255, 255, 0.15);
-        transform: translateY(-2px);
-    }
-
-    /* ========== PREMIUM BUTTONS ========== */
-    .stButton > button {
-        width: 100%;
-        background: linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%);
-        border: none;
-        color: white;
-        font-weight: 700;
-        border-radius: 12px;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        padding: 12px 24px !important;
-        font-size: 1rem !important;
-        box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
-        position: relative;
-        overflow: hidden;
-    }
-    
-    .stButton > button:hover {
-        transform: translateY(-2px) scale(1.02);
-        box-shadow: 0 8px 25px rgba(139, 92, 246, 0.5);
-        background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%);
-    }
-    
-    button[data-testid="baseButton-secondary"] {
-        background: rgba(255, 255, 255, 0.1) !important;
-        border: 1px solid rgba(255, 255, 255, 0.2) !important;
-        color: #FFFFFF !important;
-        border-radius: 12px !important;
-        font-weight: 500 !important;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
-        backdrop-filter: blur(10px);
-    }
-    
-    button[data-testid="baseButton-secondary"]:hover {
-        background: rgba(255, 255, 255, 0.15) !important;
-        border-color: rgba(99, 102, 241, 0.4) !important;
-    }
-
-    /* ========== PREMIUM ALERTS ========== */
-    .stInfo, .stSuccess, .stWarning, .stError {
-        background: rgba(255, 255, 255, 0.1) !important;
-        backdrop-filter: blur(20px);
-        border: 1px solid rgba(255, 255, 255, 0.15) !important;
-        border-left: 4px solid !important;
-        font-size: 0.9rem !important;
-        padding: 16px 20px !important;
-        line-height: 1.6;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-        border-radius: 12px;
-    }
-    .stInfo { 
-        border-left-color: #60A5FA !important;
-        background: rgba(59, 130, 246, 0.15) !important;
-    }
-    .stSuccess { 
-        border-left-color: #34D399 !important;
-        background: rgba(16, 185, 129, 0.15) !important;
-    }
-    .stWarning { 
-        border-left-color: #FBBF24 !important;
-        background: rgba(245, 158, 11, 0.15) !important;
-    }
-    .stError { 
-        border-left-color: #F87171 !important;
-        background: rgba(239, 68, 68, 0.15) !important;
-    }
-
-    /* ========== PREMIUM EXPANDERS ========== */
-    .streamlit-expanderHeader {
-        background: rgba(255, 255, 255, 0.08) !important;
-        backdrop-filter: blur(20px);
-        color: #FFFFFF !important;
-        border-radius: 14px;
-        font-size: 0.95rem !important;
-        font-weight: 600 !important;
-        padding: 16px 20px !important;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        transition: all 0.3s ease;
-    }
-    
-    .streamlit-expanderHeader:hover {
-        background: rgba(255, 255, 255, 0.12) !important;
-        border-color: rgba(99, 102, 241, 0.3);
-        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
-        transform: translateY(-2px);
-    }
-
-    /* ========== DARK GLASSMORPHISM SIDEBAR ========== */
-    
-    [data-testid="stSidebar"] {
-        background: linear-gradient(180deg, #0a0a1a 0%, #0f0f2a 50%, #0a0a1a 100%) !important;
-        border-right: 1px solid rgba(99, 102, 241, 0.2);
-        width: 280px !important;
-    }
-    
-    [data-testid="stSidebar"]::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: 
-            radial-gradient(ellipse at 30% 20%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
-            radial-gradient(ellipse at 70% 80%, rgba(6, 182, 212, 0.1) 0%, transparent 40%);
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background-image: radial-gradient(circle at 2px 2px, rgba(0, 242, 255, 0.03) 1px, transparent 0);
+        background-size: 32px 32px;
         pointer-events: none;
         z-index: 0;
     }
     
-    [data-testid="stSidebar"] > div {
-        position: relative;
+    .stApp::after {
+        content: "";
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: radial-gradient(circle at 50% 50%, transparent 0%, rgba(11, 12, 16, 0.4) 100%);
+        pointer-events: none;
         z-index: 1;
-        padding-top: 10px;
     }
-    
-    /* Sidebar navigation buttons */
-    [data-testid="stSidebar"] [data-testid="stRadio"] label {
-        background: rgba(255, 255, 255, 0.05) !important;
-        backdrop-filter: blur(20px);
-        border: 1px solid rgba(255, 255, 255, 0.08) !important;
-        color: rgba(255, 255, 255, 0.7) !important;
-        padding: 14px 18px !important;
-        margin: 5px 14px !important;
-        font-size: 0.95rem !important;
-        font-weight: 500;
+
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: var(--bg-dark); }
+    ::-webkit-scrollbar-thumb { 
+        background: linear-gradient(180deg, var(--primary-neon), var(--secondary-neon));
+        border-radius: 10px;
+    }
+
+    [data-testid="stSidebar"] {
+        background: var(--bg-sidebar) !important;
+        border-right: 1px solid var(--glass-border);
+    }
+
+    .sidebar-logo {
+        padding: 30px 20px;
+        text-align: center;
+        background: radial-gradient(circle at 50% 50%, rgba(0, 242, 255, 0.05) 0%, transparent 70%);
+    }
+    .sidebar-logo img {
+        width: 160px;
+        filter: drop-shadow(0 0 12px rgba(0, 242, 255, 0.4));
         transition: all 0.3s ease;
-        border-radius: 12px !important;
-        position: relative;
-        overflow: hidden;
+    }
+
+    [data-testid="stSidebar"] [data-testid="stRadio"] label {
+        background: rgba(255, 255, 255, 0.02) !important;
+        border: 1px solid var(--glass-border) !important;
+        color: var(--text-muted) !important;
+        padding: 14px 22px !important;
+        margin: 6px 16px !important;
+        border-radius: 50px !important;
+        transition: all 0.3s ease;
         display: flex !important;
         align-items: center;
-        gap: 12px;
+        gap: 14px;
+        cursor: pointer;
     }
-    
-    [data-testid="stSidebar"] [data-testid="stRadio"] label span {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 32px;
-        height: 32px;
-        background: rgba(255, 255, 255, 0.08);
-        border-radius: 8px;
-        font-size: 1rem;
-    }
-    
+
     [data-testid="stSidebar"] [data-testid="stRadio"] label:hover {
-        background: rgba(99, 102, 241, 0.2) !important;
-        border-color: rgba(99, 102, 241, 0.4) !important;
-        color: #FFFFFF !important;
+        background: rgba(0, 242, 255, 0.05) !important;
+        border-color: rgba(0, 242, 255, 0.3) !important;
+        color: var(--text-main) !important;
         transform: translateX(4px);
-        box-shadow: 0 4px 20px rgba(99, 102, 241, 0.3);
     }
-    
-    [data-testid="stSidebar"] [data-testid="stRadio"] label:hover span {
-        background: rgba(99, 102, 241, 0.3);
-    }
-    
+
     [data-testid="stSidebar"] [data-testid="stRadio"] label:has(input:checked) {
-        background: linear-gradient(135deg, rgba(99, 102, 241, 0.3) 0%, rgba(6, 182, 212, 0.2) 100%) !important;
-        border: 1px solid rgba(99, 102, 241, 0.5) !important;
-        color: #FFFFFF !important;
+        background: rgba(0, 242, 255, 0.08) !important;
+        border-color: var(--primary-neon) !important;
+        color: var(--primary-neon) !important;
         font-weight: 600 !important;
-        box-shadow: 
-            0 8px 30px rgba(99, 102, 241, 0.4),
-            0 0 40px rgba(99, 102, 241, 0.2),
-            3px 0 20px rgba(6, 182, 212, 0.3);
-        transform: translateX(4px);
-        border-right: 3px solid #06B6D4 !important;
-    }
-    
-    [data-testid="stSidebar"] [data-testid="stRadio"] label:has(input:checked) span {
-        background: rgba(6, 182, 212, 0.3);
-        box-shadow: 0 0 15px rgba(6, 182, 212, 0.4);
+        box-shadow: 0 0 20px rgba(0, 242, 255, 0.15);
     }
 
     [data-testid="stSidebar"] [data-testid="stRadio"] input[type="radio"] {
         display: none;
     }
-    
-    [data-testid="stSidebar"] * {
-        color: rgba(255, 255, 255, 0.85) !important;
-    }
-    
-    [data-testid="stSidebar"] [data-testid="stRadio"] label p {
-        color: rgba(255, 255, 255, 0.85) !important;
-        font-weight: 500;
-        margin: 0;
-    }
-    
-    [data-testid="stSidebar"] .stMarkdown h3 {
-        color: rgba(255, 255, 255, 0.4) !important;
-        font-size: 0.7rem !important;
-        font-weight: 700 !important;
-        text-transform: uppercase;
-        letter-spacing: 1.5px;
-        padding: 20px 20px 10px 20px !important;
-        margin-top: 15px;
-    }
-    
-    [data-testid="stSidebar"] hr {
-        border: none;
-        height: 1px;
-        background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.3), transparent);
-        margin: 10px 24px;
-    }
-    
-    [data-testid="stSidebar"] .stButton > button {
-        background: rgba(255, 255, 255, 0.05) !important;
-        backdrop-filter: blur(20px);
-        border: 1px solid rgba(255, 255, 255, 0.08) !important;
-        color: rgba(255, 255, 255, 0.8) !important;
-        border-radius: 12px !important;
-        padding: 12px 18px !important;
-        font-weight: 500 !important;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+
+    div[data-testid="stMetric"] {
+        background: var(--glass-bg);
+        border: 1px solid var(--glass-border);
+        backdrop-filter: var(--glass-blur);
+        border-radius: 20px;
+        padding: 24px !important;
         transition: all 0.3s ease;
     }
-    
-    [data-testid="stSidebar"] .stButton > button:hover {
-        background: rgba(99, 102, 241, 0.2) !important;
-        border-color: rgba(99, 102, 241, 0.4) !important;
-        color: #FFFFFF !important;
-        transform: translateX(4px);
+
+    .stPlotlyChart {
+        background: var(--glass-bg) !important;
+        border: 1px solid var(--glass-border) !important;
+        backdrop-filter: var(--glass-blur) !important;
+        border-radius: 20px !important;
+        padding: 20px !important;
+    }
+
+    .stButton > button {
+        border-radius: 50px !important;
+        padding: 10px 28px !important;
+        font-weight: 600 !important;
+        transition: all 0.3s ease !important;
     }
     
-    @keyframes gradientShift {
-        0% { background-position: 0% 50%; }
-        50% { background-position: 100% 50%; }
-        100% { background-position: 0% 50%; }
+    .stButton > button[kind="primary"] {
+        background: linear-gradient(135deg, var(--primary-neon), var(--secondary-neon)) !important;
+        border: none !important;
+        color: #000 !important;
+        box-shadow: 0 4px 15px rgba(0, 242, 255, 0.3) !important;
     }
-    
-    /* Premium sidebar text */
-    [data-testid="stSidebar"] * {
-        color: #FFFFFF !important;
+
+    h1 {
+        background: linear-gradient(90deg, #fff, var(--primary-neon));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-size: 2.8rem !important;
+        margin-bottom: 30px !important;
     }
+
     
-    [data-testid="stSidebar"] h1,
-    [data-testid="stSidebar"] h2,
-    [data-testid="stSidebar"] h3 {
-        color: #FFFFFF !important;
-        text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    /* ========== GRAFANA-CLASS UPGRADES ========== */
+    :root {
+        --glass-bg: rgba(255, 255, 255, 0.02);
+        --glass-border: rgba(0, 242, 255, 0.2);
+        --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
     }
-    
-    [data-testid="stSidebar"] p,
-    [data-testid="stSidebar"] span,
-    [data-testid="stSidebar"] div {
-        color: #FFFFFF !important;
+
+    [data-testid="stMetricValue"] {
+        font-size: 1.8rem !important;
+        font-weight: 700 !important;
     }
-    
-    [data-testid="stSidebar"] .stMarkdown {
-        color: #FFFFFF !important;
-    }
-    
-    [data-testid="stSidebar"] [data-testid="stRadio"] p {
-        color: #FFFFFF !important;
-        font-weight: 500;
-    }
-    
-    /* ========== CLEAN CONTENT CONTAINER ========== */
-    .block-container {
-        padding: 1.5rem 2rem 1rem 2rem !important;
-        max-width: 100% !important;
-    }
-    
-    /* Eliminar espacios extra al final del contenido */
-    .main .block-container {
-        padding-bottom: 1rem !important;
-    }
-    
-    /* Evitar scrollbars invisibles */
-    .main {
-        overflow-x: hidden !important;
-    }
-    
-    /* ========== DECORATIVE SEPARATORS ========== */
-    hr {
-        margin: 2rem 0;
-        border: none;
-        height: 2px;
-        background: linear-gradient(90deg, transparent 0%, var(--primary-color) 50%, transparent 100%);
-        opacity: 0.3;
-    }
-    
-    /* ========== PREMIUM DATAFRAMES/TABLES ========== */
-    .stDataFrame {
+
+    .metric-card-container {
+        background: var(--glass-bg);
+        border: 1px solid var(--glass-border);
+        backdrop-filter: blur(15px);
         border-radius: 16px;
+        padding: 16px 20px;
+        box-shadow: var(--card-shadow);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        margin-bottom: 10px;
+        position: relative;
         overflow: hidden;
-        box-shadow: 0 8px 24px rgba(112, 144, 176, 0.1);
+    }
+
+    .metric-card-container:hover {
+        border-color: rgba(0, 242, 255, 0.4);
+        transform: translateY(-2px);
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+    }
+
+    .wa-button {
+        background: transparent !important;
+        color: #25D366 !important;
+        border: 1.5px solid rgba(37, 211, 102, 0.5) !important;
+        padding: 6px 16px !important;
+        border-radius: 50px !important;
+        font-weight: 600 !important;
+        transition: all 0.3s ease !important;
+        box-shadow: none !important;
+        font-size: 0.8rem !important;
+    }
+
+    .wa-button:hover {
+        background: #25D366 !important;
+        color: white !important;
+        border-color: #25D366 !important;
+        box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3) !important;
+        transform: scale(1.05);
+    }
+
+    .ticket-row {
+        background: rgba(255, 255, 255, 0.01);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        padding: 12px 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: background 0.2s ease;
+    }
+
+    .ticket-row:hover {
+        background: rgba(255, 255, 255, 0.03);
+    }
+
+    .status-badge {
+        background: rgba(0, 242, 255, 0.1);
+        color: var(--primary-neon);
+        padding: 2px 8px;
+        border-radius: 4px;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.8rem;
+        font-weight: 700;
+        border: 1px solid rgba(0, 242, 255, 0.2);
+    }
+
+    /* Compact filtering line */
+    .filter-header-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
     }
     
-    /* ========== ANIMATION KEYFRAMES ========== */
-    @keyframes fadeInUp {
-        from {
-            opacity: 0;
-            transform: translateY(20px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
+    /* Config Pulse Notification */
+    .config-pulse {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(255, 75, 75, 0.1);
+        border: 1px solid rgba(255, 75, 75, 0.2);
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        color: #ff6b6b;
     }
     
-    @keyframes shimmer {
-        0% { background-position: -1000px 0; }
-        100% { background-position: 1000px 0; }
+    .pulse-dot {
+        width: 8px;
+        height: 8px;
+        background: #ff4b4b;
+        border-radius: 50%;
+        animation: pulse-red 2s infinite;
     }
     
-    /* ========== PREMIUM INPUTS ========== */
-    .stDateInput > div > div,
-    .stSelectbox > div > div,
-    .stTextInput > div > div {
-        background: rgba(255, 255, 255, 0.1) !important;
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    @keyframes pulse-red {
+        0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 75, 75, 0.7); }
+        70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(255, 75, 75, 0); }
+        100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 75, 75, 0); }
+    }
+
+    .premium-header {
+        display: flex;
+        align-items: center;
+        padding-left: 15px;
+        margin: 2.5rem 0 1.5rem 0;
+        border-left: 3px solid var(--primary-neon);
+        font-family: 'DM Sans', sans-serif;
+        font-weight: 700;
+        font-size: 1.6rem;
+        color: #FFFFFF;
+        text-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+    }
+
+    .neon-divider {
+        height: 1px;
+        width: 100%;
+        background: linear-gradient(90deg, transparent, var(--glass-border), var(--primary-neon), var(--glass-border), transparent);
+        margin: 2.5rem 0;
+        opacity: 0.6;
+    }
+
+    .glass-pill {
+        background: var(--glass-bg);
+        border: 1px solid var(--glass-border);
+        backdrop-filter: var(--glass-blur);
+        padding: 8px 24px;
+        border-radius: 50px;
+        color: #FFFFFF;
+        font-size: 0.85rem;
+        font-weight: 600;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .ticket-card {
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid var(--glass-border);
+        backdrop-filter: var(--glass-blur);
+        border-radius: 16px;
+        padding: 20px;
+        margin-bottom: 15px;
+        transition: all 0.3s ease;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .ticket-card:hover {
+        background: rgba(255, 255, 255, 0.05);
+        border-color: rgba(0, 242, 255, 0.3);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    }
+
+    .ticket-id {
+        font-family: 'Inter', monospace;
+        color: var(--primary-neon);
+        font-weight: 700;
+        font-size: 1rem;
+    }
+
+    .ticket-customer {
+        color: #FFFFFF;
+        font-weight: 600;
+        font-size: 0.95rem;
+    }
+
+    .ticket-price {
+        color: var(--primary-neon);
+        font-weight: 700;
+        font-size: 1.1rem;
+    }
+
+    .wa-button {
+        background: linear-gradient(135deg, #25D366, #128C7E) !important;
+        color: white !important;
+        border: none !important;
+        padding: 8px 20px !important;
+        border-radius: 50px !important;
+        font-weight: 600 !important;
+        box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3) !important;
+        transition: all 0.3s ease !important;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    /* Override for standard Streamlit success/warning to match theme */
+    .stAlert {
+        background: var(--glass-bg) !important;
+        border: 1px solid var(--glass-border) !important;
+        color: #e2e8f0 !important;
         border-radius: 12px !important;
-        transition: border-color 0.2s ease, box-shadow 0.2s ease;
     }
-    
-    .stDateInput > div > div:hover,
-    .stSelectbox > div > div:hover,
-    .stTextInput > div > div:hover {
-        border-color: rgba(99, 102, 241, 0.4) !important;
-        box-shadow: 0 0 20px rgba(99, 102, 241, 0.2);
-    }
-    
-    .stDateInput > div > div:focus-within,
-    .stSelectbox > div > div:focus-within,
-    .stTextInput > div > div:focus-within {
-        border-color: rgba(99, 102, 241, 0.6) !important;
-        box-shadow: 0 0 30px rgba(99, 102, 241, 0.3);
-    }
-    
-    /* ========== FIX SCROLLBARS INVISIBLES GLOBAL ========== */
-    /* Eliminar scrollbars horizontales invisibles */
-    [data-testid="stAppViewContainer"],
-    [data-testid="stApp"],
-    .main,
-    section[data-testid="stAppViewContainer"] > div {
-        overflow-x: hidden !important;
-    }
-    
-    /* CRITICAL: Prevenir scroll infinito vertical */
-    [data-testid="stAppViewContainer"],
-    section.main {
-        max-height: 100vh !important;
-        overflow-y: auto !important;
-    }
-    
-    /* Ajustar altura de gráficos Plotly para evitar espacios extra */
-    .stPlotlyChart > div > div {
-        overflow: hidden !important;
-    }
-    
-    /* Eliminar márgenes extra en el contenedor principal */
-    [data-testid="stAppViewContainer"] > div:first-child {
-        padding-bottom: 0 !important;
-    }
-    
-    /* Prevenir que los gráficos creen scroll interno */
-    .js-plotly-plot,
-    .plotly,
-    .main-svg {
-        overflow: visible !important;
-        max-width: 100% !important;
-    }
-    
-    /* Eliminar espacios extra después del último elemento */
-    .block-container > div:last-child {
-        margin-bottom: 0 !important;
-        padding-bottom: 0 !important;
-    }
-    
 </style>
 """, unsafe_allow_html=True)
 
@@ -750,26 +539,24 @@ def render_locked_view(view_name, missing_services):
 # === WELCOME BANNER (NON-BLOCKING) ===
 
 def show_config_banner(missing_configs):
-    """Display non-blocking configuration banner"""
+    """Display sleek non-blocking configuration banner"""
     if not missing_configs:
-        return  # All configured, no banner needed
+        return
     
-    with st.expander("ℹ️ Configuración Incompleta - Click para más información", expanded=False):
-        st.info("Algunas funcionalidades están limitadas porque faltan credenciales.")
-        
-        st.warning(f"**Servicios sin configurar**: {', '.join(missing_configs)}")
-        
-        col1, col2 = st.columns([3, 1])
-        with col1:
-            st.markdown("""
-            **Funcionalidades desbloqueadas:**
-            - ✅ Con **WooCommerce**: Ventas, productos, clientes, inventario
-            - ✅ Con **Google Analytics**: Métricas de tráfico y conversión
-            - ✅ Con **Facebook**: Insights de redes sociales
-            """)
-        with col2:
-            if st.button("⚙️ Configurar", key="config_banner_btn", type="primary", use_container_width=True):
-                st.switch_page("pages/setup.py")
+    st.markdown(f'''
+        <div class="config-banner-sleek">
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <div style="background: var(--primary-neon); width: 4px; height: 24px; border-radius: 2px;"></div>
+                <div>
+                    <div style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); font-weight: 600;">Atención Requerida</div>
+                    <div style="font-size: 0.9rem; font-weight: 500;">Servicios sin configurar: <span style="color: var(--primary-neon);">{', '.join(missing_configs)}</span></div>
+                </div>
+            </div>
+        </div>
+    ''', unsafe_allow_html=True)
+    
+    if st.button("⚙️ Ajustar Configuración", key="config_banner_btn", type="primary"):
+        st.switch_page("pages/setup.py")
 
 
 # === CHECK CONFIGURATION STATUS (NON-BLOCKING) ===
@@ -970,41 +757,31 @@ def load_data(table_name, db_path=DATABASE_NAME, filter_valid_statuses=False):
         print(f"Error cargando {table_name}: {e}")
         return pd.DataFrame()
 
-def metric_card(title, value, delta=None, icon="fa-chart-line", color="#4318FF", help_text=None, bg_color=None):
-    """Muestra una tarjeta métrica optimizada para mejor uso del espacio.
-    
-    Args:
-        bg_color: Color de fondo personalizado. Si es None, usa blanco.
-                  Usar '#E6FBF5' (verde claro) para positivo, '#FEEFEE' (rojo claro) para negativo.
-    """
-    
+def metric_card(title, value, delta=None, icon='fa-chart-line', color='#00f2ff', help_text=None, sparkline_data=None):
+    """Muestra una tarjeta métrica con estilo Grafana y sparkline opcional."""
     delta_html = ""
     if delta:
-        is_negative = "-" in str(delta) and not "+" in str(delta)
-        delta_color = "#EE5D50" if is_negative else "#05CD99"
-        delta_bg = "#FEEFEE" if is_negative else "#E6FBF5"
-        delta_icon = "fa-arrow-trend-down" if is_negative else "fa-arrow-trend-up"
-        delta_html = f'<div style="display:inline-flex; align-items:center; background: {delta_bg}; border-radius: 8px; padding: 3px 8px; font-size: 0.7rem; color: {delta_color}; margin-top: 6px; font-weight: 600;"><i class="fa-solid {delta_icon}" style="margin-right:4px; font-size:0.7rem;"></i> {delta}</div>'
+        is_negative = '-' in str(delta) and '+' not in str(delta)
+        d_color = '#ff4b4b' if is_negative else '#00ffb3'
+        d_icon = 'fa-caret-down' if is_negative else 'fa-caret-up'
+        delta_html = f'<div style="display:flex; align-items:center; font-size:0.75rem; color:{d_color}; margin-top:4px; font-weight:600;"><i class="fa-solid {d_icon}" style="margin-right:4px;"></i>{delta}</div>'
     
-    help_html = ""
+    st.markdown(f'''
+        <div class="metric-card-container">
+            <div style="position: absolute; top: 15px; right: 15px; width: 36px; height: 36px; background: {color}15; border-radius: 10px; display: flex; align-items: center; justify-content: center; border: 1px solid {color}30;"><i class="fa-solid {icon}" style="color:{color}; font-size:1rem;"></i></div>
+            <div style="color:var(--text-muted); font-size:0.7rem; font-weight:600; margin-bottom:5px; text-transform:uppercase; letter-spacing:1px; opacity:0.8;">{title}</div>
+            <div style="font-size:1.8rem; font-weight:700; color:#FFFFFF; line-height:1.1; letter-spacing:-0.5px;">{value}</div>
+            {delta_html}
+    ''', unsafe_allow_html=True)
+    
+    if sparkline_data is not None and len(sparkline_data) > 1:
+        fig = go.Figure(go.Scatter(y=sparkline_data, mode='lines', line=dict(color=color, width=1.5), fill='tozeroy', fillcolor=f"{color}10"))
+        fig.update_layout(margin=dict(l=0, r=0, t=10, b=0), height=35, xaxis=dict(visible=False), yaxis=dict(visible=False), paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)', showlegend=False)
+        st.plotly_chart(fig, use_container_width=True, config={'displayModeBar': False})
+    
     if help_text:
-        help_html = f'<div style="font-size: 0.7rem; color: #A3AED0; margin-top: 6px; line-height:1.2;">{help_text}</div>'
-    
-    # Determinar color de fondo
-    card_bg = bg_color if bg_color else "#FFFFFF"
-
-    html_content = [
-        f'<div style="background: {card_bg}; border-radius: 16px; padding: 16px 18px; box-shadow: 0 8px 24px rgba(112, 144, 176, 0.08); position: relative; overflow: hidden; margin-bottom: 16px; min-height: 110px; display: flex; flex-direction: column; justify-content: space-between;">',
-        f'<div style="position: absolute; top: 16px; right: 16px; width: 42px; height: 42px; background: {color}15; border-radius: 50%; display: flex; align-items: center; justify-content: center;"><i class="fa-solid {icon}" style="color: {color}; font-size: 1.1rem;"></i></div>',
-        f'<div style="padding-right: 50px;">',
-        f'<div style="color: #A3AED0; font-size: 0.75rem; font-weight: 500; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px;">{title}</div>',
-        f'<div style="font-size: 1.75rem; font-weight: 700; color: #2B3674; line-height: 1.1; margin-bottom: 2px;">{value}</div>',
-        delta_html,
-        help_html,
-        '</div>',
-        '</div>'
-    ]
-    st.markdown("".join(html_content), unsafe_allow_html=True)
+        st.markdown(f'<div style="font-size:0.65rem; color:var(--text-muted); margin-top:5px; opacity:0.6;">{help_text}</div>', unsafe_allow_html=True)
+    st.markdown('</div>', unsafe_allow_html=True)
 
 def normalize_traffic_source(source):
     if pd.isna(source) or source == '': return 'No identificado'
@@ -1035,41 +812,38 @@ def add_product_badges(df_products, revenue_col='Ingresos', units_col='Unidades'
     df['product_display'] = df.apply(add_badge, axis=1)
     return df
 
-def premium_separator(text=None, icon=None):
-    """
-    Crea un separador decorativo premium con texto e icono opcionales.
-    
-    Args:
-        text: Texto opcional para mostrar en el separador
-        icon: Clase de icono Font Awesome (ej: 'fa-chart-line')
-    """
-    if text and icon:
-        separator_html = f"""
-        <div style="display: flex; align-items: center; margin: 2.5rem 0 2rem 0; gap: 15px;">
-            <div style="flex: 1; height: 2px; background: linear-gradient(90deg, transparent 0%, rgba(67, 24, 255, 0.3) 50%, transparent 100%);"></div>
-            <div style="display: flex; align-items: center; gap: 10px; padding: 8px 20px; background: linear-gradient(135deg, rgba(67, 24, 255, 0.08) 0%, rgba(106, 210, 255, 0.08) 100%); border-radius: 30px; backdrop-filter: blur(10px);">
-                <i class="fa-solid {icon}" style="color: #4318FF; font-size: 1.1rem;"></i>
-                <span style="color: #2B3674; font-weight: 600; font-size: 0.9rem; letter-spacing: 0.5px; text-transform: uppercase;">{text}</span>
-            </div>
-            <div style="flex: 1; height: 2px; background: linear-gradient(90deg, transparent 0%, rgba(67, 24, 255, 0.3) 50%, transparent 100%);"></div>
-        </div>
-        """
-    elif text:
-        separator_html = f"""
-        <div style="display: flex; align-items: center; margin: 2.5rem 0 2rem 0; gap: 15px;">
-            <div style="flex: 1; height: 2px; background: linear-gradient(90deg, transparent 0%, rgba(67, 24, 255, 0.3) 50%, transparent 100%);"></div>
-            <span style="color: #2B3674; font-weight: 600; font-size: 0.9rem; letter-spacing: 0.5px; text-transform: uppercase; padding: 8px 20px; background: linear-gradient(135deg, rgba(67, 24, 255, 0.08) 0%, rgba(106, 210, 255, 0.08) 100%); border-radius: 30px;">{text}</span>
-            <div style="flex: 1; height: 2px; background: linear-gradient(90deg, transparent 0%, rgba(67, 24, 255, 0.3) 50%, transparent 100%);"></div>
-        </div>
-        """
-    else:
-        separator_html = f"""
-        <div style="margin: 2rem 0; height: 2px; background: linear-gradient(90deg, transparent 0%, rgba(67, 24, 255, 0.3) 50%, transparent 100%); opacity: 0.5;"></div>
-        """
-    
-    st.markdown(separator_html, unsafe_allow_html=True)
 
-def accent_box(content, color="#4318FF", icon=None):
+def premium_divider():
+    """Crea un divisor degradado neon sutil."""
+    st.markdown('<div class="neon-divider"></div>', unsafe_allow_html=True)
+
+def premium_header(title, icon=None, color="var(--primary-neon)"):
+    """Renderiza un encabezado premium con icono FA y acento lateral."""
+    icon_html = f'<i class="fa-solid {icon}" style="color: {color}; margin-right: 15px; filter: drop-shadow(0 0 8px {color}40);"></i>' if icon else ''
+    st.markdown(f'''
+        <div class="premium-header">
+            {icon_html}
+            <span>{title}</span>
+        </div>
+    ''', unsafe_allow_html=True)
+
+def premium_separator(text=None, icon=None):
+    """Versión mejorada del separador premium para el nuevo tema."""
+    if text:
+        icon_html = f'<i class="fa-solid {icon}" style="color: var(--primary-neon); margin-right: 10px;"></i>' if icon else ''
+        st.markdown(f'''
+            <div style="display: flex; align-items: center; margin: 3rem 0 2rem 0; gap: 20px;">
+                <div style="flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--glass-border), transparent);"></div>
+                <div class="glass-pill">
+                    {icon_html}
+                    <span>{text}</span>
+                </div>
+                <div style="flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--glass-border), transparent);"></div>
+            </div>
+        ''', unsafe_allow_html=True)
+    else:
+        premium_divider()
+def accent_box(content, color="#00f2ff", icon=None):
     """
     Crea una caja decorativa con acento de color para destacar información.
     
@@ -1093,7 +867,7 @@ def accent_box(content, color="#4318FF", icon=None):
         align-items: center;
     ">
         {icon_html}
-        <div style="flex: 1; color: #2B3674; line-height: 1.6;">
+        <div style="flex: 1; color: #FFFFFF; line-height: 1.6;">
             {content}
         </div>
     </div>
@@ -1102,152 +876,50 @@ def accent_box(content, color="#4318FF", icon=None):
 
 
 def render_pending_tickets():
-    """
-    Renderiza la sección de tickets pendientes con botones de WhatsApp.
-    Incluye la lista de tickets y el editor de plantilla de mensaje.
-    """
-    # Verificar si la funcionalidad está habilitada
-    if not TicketConfig.is_enabled():
-        return
-    
-    # Refrescar tickets (detectar nuevas órdenes)
+    if not TicketConfig.is_enabled(): return
     try:
-        stats = refresh_tickets()
+        refresh_tickets()
         tickets = get_pending_tickets()
-    except Exception as e:
-        st.warning(f"⚠️ Error cargando tickets: {str(e)}")
-        return
+    except: return
+    if not tickets: return
     
-    if not tickets:
-        return  # No mostrar sección si no hay tickets
+    premium_header(f"Tickets Pendientes ({len(tickets)})", icon="fa-ticket-simple", color="#ff6b6b")
     
-    # Sección de tickets pendientes
-    st.markdown("---")
-    
-    # Header con contador
-    st.markdown(f"""
-    <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
-        <span style="font-size: 1.5rem;">🎫</span>
-        <span style="font-size: 1.2rem; font-weight: 700; color: #2B3674;">Tickets Pendientes</span>
-        <span style="background: #FF6B6B; color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: 600;">
-            {len(tickets)}
-        </span>
-    </div>
-    """, unsafe_allow_html=True)
-    
-    # Cargar plantilla actual
-    current_template = load_message_template()
-    
-    # Expander para editar plantilla
-    with st.expander("⚙️ Configurar mensaje de WhatsApp", expanded=False):
-        st.markdown("**Variables disponibles:**")
-        vars_html = " ".join([f"`{v['var']}`" for v in get_available_variables()])
-        st.markdown(vars_html)
-        
-        new_template = st.text_area(
-            "Plantilla del mensaje",
-            value=current_template,
-            height=100,
-            key="ticket_message_template",
-            help="Usa las variables para personalizar el mensaje"
-        )
-        
-        col_preview, col_save = st.columns([3, 1])
-        with col_preview:
-            # Vista previa con datos de ejemplo
-            preview = new_template.replace('{nombre}', 'Juan Pérez')
-            preview = preview.replace('{orden}', '12345')
-            preview = preview.replace('{total}', '45,000')
-            preview = preview.replace('{productos}', '2x Producto A, 1x Producto B')
-            preview = preview.replace('{fecha}', '2024-12-24')
-            st.caption(f"**Vista previa:** {preview}")
-        
-        with col_save:
-            if st.button("💾 Guardar", key="save_template", use_container_width=True):
-                if save_message_template(new_template):
-                    st.success("✅ Plantilla guardada")
-                    st.rerun()
-                else:
-                    st.error("Error al guardar")
-    
-    # Lista de tickets
-    for idx, ticket in enumerate(tickets):
-        order_id = ticket['order_id']
-        order_number = ticket.get('order_number', order_id)
-        customer_name = ticket.get('customer_name', 'Sin nombre')
-        phone = ticket.get('customer_phone', '')
-        total = ticket.get('order_total', 0)
-        products = ticket.get('products_summary', '')[:50]
-        
-        # Generar link de WhatsApp
-        wa_link = generate_whatsapp_link(ticket, current_template)
-        
-        # Contenedor del ticket
-        col_info, col_actions = st.columns([4, 1])
-        
-        with col_info:
-            phone_display = phone if phone else "Sin teléfono"
-            st.markdown(f"""
-            <div style="
-                background: white;
-                border-radius: 12px;
-                padding: 12px 16px;
-                margin-bottom: 8px;
-                box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-                border-left: 4px solid #4318FF;
-            ">
-                <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <div>
-                        <span style="font-weight: 700; color: #2B3674;">#{order_number}</span>
-                        <span style="color: #A3AED0; margin: 0 8px;">|</span>
-                        <span style="color: #2B3674;">{customer_name}</span>
-                        <span style="color: #A3AED0; margin: 0 8px;">|</span>
-                        <span style="color: #718096;">{phone_display}</span>
-                    </div>
-                    <div style="font-weight: 700; color: #05CD99;">${total:,.0f}</div>
-                </div>
-                <div style="font-size: 0.8rem; color: #A3AED0; margin-top: 4px;">{products}...</div>
-            </div>
-            """, unsafe_allow_html=True)
-        
-        with col_actions:
-            btn_col1, btn_col2 = st.columns(2)
-            
-            with btn_col1:
-                # Botón de WhatsApp
-                if wa_link:
-                    st.markdown(f"""
-                    <a href="{wa_link}" target="_blank" style="
-                        display: inline-flex;
-                        align-items: center;
-                        justify-content: center;
-                        background: #25D366;
-                        color: white;
-                        padding: 8px 12px;
-                        border-radius: 8px;
-                        text-decoration: none;
-                        font-weight: 600;
-                        font-size: 0.9rem;
-                        margin-top: 8px;
-                    ">
-                        <i class="fab fa-whatsapp" style="margin-right: 6px;"></i> WA
-                    </a>
-                    """, unsafe_allow_html=True)
-                else:
-                    st.markdown("""
-                    <span style="color: #A3AED0; font-size: 0.8rem;">Sin tel.</span>
-                    """, unsafe_allow_html=True)
-            
-            with btn_col2:
-                # Botón de confirmar/cerrar
-                if st.button("✅", key=f"close_ticket_{order_id}", help="Marcar como enviado"):
-                    if close_ticket(order_id):
-                        st.rerun()
+    with st.expander("⚙️ Plantilla WhatsApp", expanded=False):
+        current_template = load_message_template()
+        new_template = st.text_area("Plantilla", value=current_template, height=80)
+        if st.button("Guardar"): 
+            save_message_template(new_template)
+            st.rerun()
 
+    st.markdown('<div style="background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.05); border-radius:12px; overflow:hidden;">', unsafe_allow_html=True)
+    for ticket in tickets:
+        order_idx = ticket['order_id']
+        order_num = ticket.get('order_number', order_idx)
+        name = ticket.get('customer_name', 'Cliente')
+        total = ticket.get('order_total', 0)
+        wa_link = generate_whatsapp_link(ticket, load_message_template())
+        
+        st.markdown(f'''
+            <div class="ticket-row">
+                <div style="display:flex; gap:15px; align-items:center;">
+                    <span class="status-badge">#{order_num}</span>
+                    <span style="color:#FFFFFF; font-weight:500; font-size:0.9rem;">{name}</span>
+                </div>
+                <div style="display:flex; gap:20px; align-items:center;">
+                    <span style="color:var(--primary-neon); font-weight:700;">${total:,.0f}</span>
+                    <a href="{wa_link}" target="_blank" style="text-decoration:none;"><div class="wa-button">WHATSAPP</div></a>
+                </div>
+            </div>
+        ''', unsafe_allow_html=True)
+        # Checkbox for closing (discreto)
+        if st.checkbox("", key=f"cls_{order_idx}", help="Cerrar ticket"):
+            if close_ticket(order_idx): st.rerun()
+    st.markdown('</div>', unsafe_allow_html=True)
 
 def show_time_selector():
     """Muestra el selector de tiempo con periodos predeterminados y calendarios personalizados"""
-    st.markdown("### 📅 Selección de Periodo")
+    premium_header("Selección de Periodo", icon="fa-calendar-days")
     
     today = datetime.now()
     today_date = today.date()
@@ -1309,7 +981,7 @@ def show_time_selector():
     days_diff = (end_date - start_date).days
     period_label = selected_period if selected_period != "Periodo personalizado" else "Personalizado"
     st.caption(f"📊 **{period_label}**: {days_diff + 1} días ({start_date.strftime('%d/%m/%Y')} - {end_date.strftime('%d/%m/%Y')})")
-    st.markdown("---")
+    premium_divider()
     
     return start_date, end_date
 
@@ -1323,8 +995,11 @@ def view_summary(df_orders_all, df_ga_all):
     mask = (df_orders_all['date_created'] >= start_date) & (df_orders_all['date_created'] <= end_date)
     df_orders = df_orders_all.loc[mask]
     
+    # Datos para Sparklines (Ventas y Pedidos diarios)
+    daily_sales = df_orders.groupby('date_only')['total'].sum().reindex(pd.date_range(start_date.date(), end_date.date()), fill_value=0).tolist()
+    daily_orders = df_orders.groupby('date_only').size().reindex(pd.date_range(start_date.date(), end_date.date()), fill_value=0).tolist()
+    
     # Periodo anterior: mismo periodo del año anterior (YoY)
-    # Ejemplo: si seleccionas Enero 2026, compara con Enero 2025
     prev_start = start_date - pd.DateOffset(years=1)
     prev_end = end_date - pd.DateOffset(years=1)
     mask_prev = (df_orders_all['date_created'] >= prev_start) & (df_orders_all['date_created'] <= prev_end)
@@ -1335,42 +1010,31 @@ def view_summary(df_orders_all, df_ga_all):
     if not df_ga_all.empty:
         df_ga = df_ga_all[(df_ga_all['Fecha'] >= start_date) & (df_ga_all['Fecha'] <= end_date)]
     
-    st.markdown("### 📝 Resumen Ejecutivo")
-    
-    # KPIs - WooCommerce 'Ventas totales' = columna 'total' (NO incluye shipping como campo separado)
+    # Layout de Cabecera Compacta
+    col_h1, col_h2 = st.columns([2, 1])
+    with col_h1:
+        premium_header("Resumen Ejecutivo", icon="fa-rocket")
+    with col_h2:
+        days_diff = (end_date - start_date).days
+        st.markdown(f'<div style="text-align:right; color:var(--text-muted); font-size:0.8rem; margin-top:35px; font-weight:500;">{days_diff + 1} DÍAS ACTIVOS <i class="fa-solid fa-bolt" style="color:#ffea00; margin-left:5px;"></i></div>', unsafe_allow_html=True)
+
+    # KPIs
     total_sales = df_orders['total'].sum()
     total_orders = len(df_orders)
     avg_order = total_sales / total_orders if total_orders > 0 else 0
     
     prev_sales = df_orders_prev['total'].sum()
-    prev_orders = len(df_orders_prev)
-    
     d_sales = ((total_sales - prev_sales)/prev_sales*100) if prev_sales > 0 else 0
+    prev_orders = df_orders_prev.shape[0]
     d_orders = ((total_orders - prev_orders)/prev_orders*100) if prev_orders > 0 else 0
-    
-    total_visits = df_ga['UsuariosActivos'].sum() if not df_ga.empty else 0
-    
-    # Logic to handle data inconsistencies (e.g. tracking errors where orders > visits)
-    if total_visits > 0:
-        raw_conv_rate = (total_orders / total_visits * 100)
-        # Cap conversion at 100% for display sanity if data is inconsistent
-        if raw_conv_rate > 100:
-            conv_rate = 100.0
-            conv_help = f"Visitantes: {total_visits:,.0f} (⚠️ Posible error de rastreo)"
-        else:
-            conv_rate = raw_conv_rate
-            conv_help = f"Visitantes: {total_visits:,.0f}"
-    else:
-        conv_rate = 0
-        conv_help = "Sin datos de visitas"
 
     col1, col2, col3 = st.columns(3)
     with col1:
-        metric_card("Ingresos Totales", f"${total_sales:,.0f}", delta=f"{d_sales:.1f}%", icon="fa-wallet", color="#4318FF", help_text="Ingresos netos")
+        metric_card("Ingresos Totales", f"${total_sales:,.0f}", delta=f"{d_sales:+.1f}%", icon="fa-wallet", color="#00f2ff", sparkline_data=daily_sales)
     with col2:
-        metric_card("Pedidos", f"{total_orders}", delta=f"{d_orders:.1f}%", icon="fa-bag-shopping", color="#FFB547", help_text="Órdenes procesadas")
+        metric_card("Pedidos", f"{total_orders}", delta=f"{d_orders:+.1f}%", icon="fa-bag-shopping", color="#FFB547", sparkline_data=daily_orders)
     with col3:
-        metric_card("Ticket Promedio", f"${avg_order:,.0f}", icon="fa-receipt", color="#05CD99", help_text="Gasto promedio")
+        metric_card("Ticket Promedio", f"${avg_order:,.0f}", icon="fa-receipt", color="#05CD99")
 
     # --- TICKETS PENDIENTES (WHATSAPP) ---
     render_pending_tickets()
@@ -1401,11 +1065,11 @@ def view_sales(df_orders_all, df_ga_all):
             daily_ga['date_only'] = pd.to_datetime(daily_ga['date_only'])
             combined_df = pd.merge(daily_sales, daily_ga, on='date_only', how='outer').fillna(0).sort_values('date_only')
     
-    st.markdown("### 💰 Análisis Detallado de Ventas")
+    premium_header("Análisis Detallado de Ventas", icon="fa-chart-line")
     
     # 1. Ventas Diarias con línea de tendencia y anotaciones
     if not combined_df.empty:
-        st.markdown("#### Ventas Diarias")
+        premium_header("Ventas Diarias", icon="fa-chevron-right", color="var(--primary-neon)")
         
         # Calcular promedio móvil de 7 días
         combined_df = combined_df.sort_values('date_only')
@@ -1425,7 +1089,7 @@ def view_sales(df_orders_all, df_ga_all):
             x=combined_df['date_only'],
             y=combined_df['Ventas'],
             name='Ventas Diarias',
-            marker_color='#4318FF',
+            marker_color='#00f2ff',
             hovertemplate='%{x|%d %b}: <b>$%{y:,.0f}</b><extra></extra>'
         ))
         
@@ -1472,12 +1136,12 @@ def view_sales(df_orders_all, df_ga_all):
                         showarrow=True,
                         arrowhead=2,
                         arrowsize=0.8,
-                        arrowcolor=date_info.get('color', '#4318FF'),
+                        arrowcolor=date_info.get('color', '#00f2ff'),
                         ax=20,
                         ay=-45,
-                        font=dict(size=9, color=date_info.get('color', '#4318FF')),
+                        font=dict(size=9, color=date_info.get('color', '#00f2ff')),
                         bgcolor='rgba(255,255,255,0.95)',
-                        bordercolor=date_info.get('color', '#4318FF'),
+                        bordercolor=date_info.get('color', '#00f2ff'),
                         borderwidth=1,
                         borderpad=3
                     )
@@ -1490,9 +1154,9 @@ def view_sales(df_orders_all, df_ga_all):
             plot_bgcolor='rgba(0,0,0,0)',
             height=400,  # Aumentado para anotaciones
             margin=dict(l=10, r=20, t=40, b=50),
-            xaxis=dict(showgrid=False, tickformat='%d %b', tickfont=dict(size=11, color='#2B3674')),
-            yaxis=dict(showgrid=True, gridcolor='rgba(163, 174, 208, 0.2)', tickprefix='$', title='', tickfont=dict(size=11, color='#2B3674')),
-            legend=dict(orientation="h", y=1.15, x=0.5, xanchor="center", font=dict(size=11, color='#2B3674')),
+            xaxis=dict(showgrid=False, tickformat='%d %b', tickfont=dict(size=11, color='#FFFFFF')),
+            yaxis=dict(showgrid=True, gridcolor='rgba(163, 174, 208, 0.2)', tickprefix='$', title='', tickfont=dict(size=11, color='#FFFFFF')),
+            legend=dict(orientation="h", y=1.15, x=0.5, xanchor="center", font=dict(size=11, color='#FFFFFF')),
             dragmode=False
         )
         st.plotly_chart(fig_sales, use_container_width=True, config=PLOTLY_CONFIG)
@@ -1507,7 +1171,7 @@ def view_sales(df_orders_all, df_ga_all):
             with col_add2:
                 new_name = st.text_input("Nombre del evento", placeholder="Ej: 🎉 Aniversario", key="new_special_name")
             with col_add3:
-                new_color = st.color_picker("Color", value="#4318FF", key="new_special_color")
+                new_color = st.color_picker("Color", value="#00f2ff", key="new_special_color")
             
             if st.button("➕ Añadir Fecha Especial", use_container_width=True):
                 if new_name:
@@ -1521,7 +1185,7 @@ def view_sales(df_orders_all, df_ga_all):
                 else:
                     st.warning("⚠️ Ingresa un nombre para el evento")
             
-            st.markdown("---")
+            premium_divider()
             st.markdown("**Fechas configuradas:**")
             for date_key, info in special_dates.items():
                 col_d1, col_d2 = st.columns([4, 1])
@@ -1535,10 +1199,10 @@ def view_sales(df_orders_all, df_ga_all):
     else:
         st.info("Sin datos de ventas diarias para graficar.")
 
-    st.markdown("---")
+    premium_divider()
 
     # 2. Pedidos YoY - Detectar años dinámicamente de los datos filtrados
-    st.markdown("#### 📦 Pedidos Diarios vs Año Anterior")
+    premium_header("Pedidos Diarios vs Año Anterior", icon="fa-box-open", color="var(--primary-neon)")
     
     # Detectar automáticamente los años presentes en los datos filtrados
     if not df_orders.empty:
@@ -1602,7 +1266,7 @@ def view_sales(df_orders_all, df_ga_all):
             y=merged['Pedidos_curr'], 
             name=f'{current_year}', 
             mode='lines', 
-            line=dict(width=3, color='#4318FF'), 
+            line=dict(width=3, color='#00f2ff'), 
             fill='tozeroy', 
             fillcolor='rgba(67, 24, 255, 0.05)',
             hovertemplate='%{x|%d %b}: <b>%{y:.0f} pedidos</b><extra>' + f'{current_year}</extra>'
@@ -1612,7 +1276,7 @@ def view_sales(df_orders_all, df_ga_all):
         st.plotly_chart(fig_yoy, use_container_width=True, config=PLOTLY_CONFIG)
     
     # 3. Mensual - Comparativa Anual (usa df_orders_all para incluir datos históricos)
-    st.markdown("---")
+    premium_divider()
     st.markdown(f"#### 📅 Ventas Mensuales - Comparativa Anual ({current_year} vs {last_year})")
     st.caption(f"🟢 = Superó {last_year}  |  🔴 = Por debajo de {last_year}  |  ⚪ = Sin datos previos")
     month_names = {1:'Enero', 2:'Febrero', 3:'Marzo', 4:'Abril', 5:'Mayo', 6:'Junio', 7:'Julio', 8:'Agosto', 9:'Septiembre', 10:'Octubre', 11:'Noviembre', 12:'Diciembre'}
@@ -1657,7 +1321,7 @@ def view_sales(df_orders_all, df_ga_all):
                 else:
                     delta_str = None
                     bg_color = None  # Blanco por defecto
-                    icon_color = "#6AD2FF"
+                    icon_color = "#00f2ff"
                 
                 # Formatear valor del año anterior de forma más visible
                 help_text = f"📊 {last_year}: {format_currency_abbrev(last_val)}" if last_val > 0 else f"Sin datos {last_year}"
@@ -1673,7 +1337,7 @@ def view_sales(df_orders_all, df_ga_all):
                 )
                 
     # 4. Verificación
-    st.markdown("---")
+    premium_divider()
     st.markdown("### 🔍 Verificación de Ventas por Día")
     verify_date = st.date_input("Selecciona fecha", value=datetime.now(), max_value=datetime.now())
     verify_start = pd.to_datetime(verify_date).normalize()
@@ -1703,14 +1367,14 @@ def view_products(df_items_all, df_orders_all):
     valid_ids = df_orders['order_id'].unique()
     df_items = df_items_all[df_items_all['order_id'].isin(valid_ids)]
     
-    st.markdown("### 📊 Rendimiento del Inventario")
+    premium_header("Rendimiento del Inventario", icon="fa-cubes")
     if not df_items.empty:
         prod_perf = df_items.groupby('product_name').agg(Unidades=('quantity', 'sum'), Ingresos=('total', 'sum')).reset_index()
         prod_perf = add_product_badges(prod_perf)
         
         col1, col2 = st.columns(2)
         with col1:
-            st.markdown("#### Más Vendidos (Ingresos)")
+            premium_header("Más Vendidos (Ingresos)", icon="fa-chevron-right", color="var(--primary-neon)")
             st.caption("🏆 = Producto estrella del periodo")
             # Usar Top 10 y formato abreviado
             top_rev = prod_perf.sort_values('Ingresos', ascending=False).head(10).sort_values('Ingresos', ascending=True)
@@ -1718,7 +1382,7 @@ def view_products(df_items_all, df_orders_all):
             
             fig_rev = px.bar(top_rev, x='Ingresos', y='product_display', orientation='h', text='Ingresos_fmt')
             fig_rev.update_traces(
-                marker_color='#4318FF', 
+                marker_color='#00f2ff', 
                 textposition='outside', 
                 cliponaxis=False,
                 width=0.7 # Hacer las barras un poco más delgadas para elegancia
@@ -1726,7 +1390,7 @@ def view_products(df_items_all, df_orders_all):
             fig_rev.update_layout(
                 yaxis=dict(
                     title='', 
-                    tickfont=dict(size=11, color='#2B3674'),
+                    tickfont=dict(size=11, color='#FFFFFF'),
                     categoryorder='array',
                     categoryarray=top_rev['product_display'].tolist(),
                     automargin=True
@@ -1748,7 +1412,7 @@ def view_products(df_items_all, df_orders_all):
             st.plotly_chart(fig_rev, use_container_width=True, config=PLOTLY_CONFIG)
             
         with col2:
-            st.markdown("#### Menos Vendidos (Unidades)")
+            premium_header("Menos Vendidos (Unidades)", icon="fa-chevron-right", color="var(--primary-neon)")
 
             # Menos Vendidos: Invertir orden para que el "peor" esté arriba
             bottom_units = prod_perf.sort_values('Unidades', ascending=True).head(10).sort_values('Unidades', ascending=False)
@@ -1763,7 +1427,7 @@ def view_products(df_items_all, df_orders_all):
             fig_worst.update_layout(
                 yaxis=dict(
                     title='', 
-                    tickfont=dict(size=11, color='#2B3674'),
+                    tickfont=dict(size=11, color='#FFFFFF'),
                     categoryorder='array',
                     categoryarray=bottom_units['product_display'].tolist(),
                     automargin=True
@@ -1795,7 +1459,7 @@ def view_customers(df_orders_all):
     mask = (df_orders_all['date_created'] >= start_date) & (df_orders_all['date_created'] <= end_date)
     df_orders = df_orders_all.loc[mask]
     
-    st.markdown("### 👥 Análisis de Clientes")
+    premium_header("Análisis de Clientes", icon="fa-users")
     if 'customer_id' in df_orders.columns and not df_orders.empty:
         df_reg = df_orders[df_orders['customer_id'] > 0].copy()
         if not df_reg.empty:
@@ -1826,7 +1490,7 @@ def view_customers(df_orders_all):
             # Solo si el orden es Descendente (Mayor a Menor) tiene sentido el podio de "Mejores"
             # Si es Ascendente, sería el "Podio de los peores" o "menos activos", que también es válido visualmente
             
-            st.markdown("#### 🏆 Podio de Clientes")
+            premium_header("Podio de Clientes", icon="fa-trophy", color="#fbff00")
             
             # Preparar colores de medallas
             medals = ['🥇', '🥈', '🥉']
@@ -1853,12 +1517,12 @@ def view_customers(df_orders_all):
                             height: 100%;
                         ">
                             <div style="font-size: 2rem;">{medals[i]}</div>
-                            <div style="font-weight: bold; color: #2B3674; margin-top: 5px;">{name}</div>
+                            <div style="font-weight: bold; color: #FFFFFF; margin-top: 5px;">{name}</div>
                             <div style="font-size: 1.2rem; color: {colors[i]}; font-weight: 700;">{val_display}</div>
                         </div>
                         """, unsafe_allow_html=True)
             
-            st.markdown("---")
+            premium_divider()
             st.markdown(f"#### 📋 Detalle Top {top_n}")
             
             # Highlight Top 3 in the table
@@ -1882,7 +1546,7 @@ def view_traffic(df_orders_all, df_ga_all, df_ga_traffic_all, df_fb_all):
     # Mostrar selector de tiempo
     start_date, end_date = show_time_selector()
     
-    st.markdown("### 🌐 Tráfico y Redes Sociales")
+    premium_header("Tráfico y Redes Sociales", icon="fa-globe")
     
     # Check if we have any data sources configured
     has_ga = not df_ga_all.empty
@@ -1910,7 +1574,7 @@ def view_traffic(df_orders_all, df_ga_all, df_ga_traffic_all, df_fb_all):
             if st.button("⚙️ Configurar Servicios", key="setup_traffic", type="primary", use_container_width=True):
                 st.switch_page("pages/setup.py")
         
-        st.markdown("---")
+        premium_divider()
         st.caption("💡 **Tip**: Después de configurar, ejecuta el ETL desde la terminal con `python etl/main.py`")
         return
     
@@ -2037,8 +1701,8 @@ def view_traffic(df_orders_all, df_ga_all, df_ga_traffic_all, df_fb_all):
                     y=combined_df['Pedidos'],
                     name='🛒 Pedidos WooCommerce',
                     mode='lines+markers',
-                    line=dict(color='#4318FF', width=3),
-                    marker=dict(size=7, color='#4318FF', line=dict(width=2, color='white')),
+                    line=dict(color='#00f2ff', width=3),
+                    marker=dict(size=7, color='#00f2ff', line=dict(width=2, color='white')),
                     fill='tozeroy',
                     fillcolor='rgba(67, 24, 255, 0.15)',
                     hovertemplate='%{x|%d %b}<br><b>%{y:.0f} pedidos</b><extra></extra>',
@@ -2063,7 +1727,7 @@ def view_traffic(df_orders_all, df_ga_all, df_ga_traffic_all, df_fb_all):
                     y=1.08,
                     xanchor="center",
                     x=0.5,
-                    font=dict(size=11, color='#2B3674'),
+                    font=dict(size=11, color='#FFFFFF'),
                     bgcolor='rgba(255,255,255,0.8)',
                     bordercolor='#A3AED0',
                     borderwidth=1
@@ -2074,7 +1738,7 @@ def view_traffic(df_orders_all, df_ga_all, df_ga_traffic_all, df_fb_all):
             fig_stacked.update_xaxes(
                 showgrid=False,
                 tickformat='%d %b',
-                tickfont=dict(size=10, color='#2B3674'),
+                tickfont=dict(size=10, color='#FFFFFF'),
                 row=2, col=1
             )
             fig_stacked.update_xaxes(showticklabels=False, showgrid=False, row=1, col=1)
@@ -2092,8 +1756,8 @@ def view_traffic(df_orders_all, df_ga_all, df_ga_traffic_all, df_fb_all):
                 title_text='Pedidos',
                 showgrid=True,
                 gridcolor='rgba(67, 24, 255, 0.1)',
-                tickfont=dict(size=10, color='#4318FF'),
-                title_font=dict(size=11, color='#4318FF', weight=600),
+                tickfont=dict(size=10, color='#00f2ff'),
+                title_font=dict(size=11, color='#00f2ff', weight=600),
                 row=2, col=1
             )
             
@@ -2122,7 +1786,7 @@ def view_traffic(df_orders_all, df_ga_all, df_ga_traffic_all, df_fb_all):
     else:
         st.info("Configura Google Analytics y WooCommerce para ver la comparativa.")
     
-    st.markdown("---")
+    premium_divider()
     
     # --- CONVERSION FUNNEL ---
     st.markdown("### 📊 Embudo de Conversión")
@@ -2157,14 +1821,14 @@ def view_traffic(df_orders_all, df_ga_all, df_ga_traffic_all, df_fb_all):
         drop_to_purchase = ((total_cart - total_buyers) / total_cart * 100) if total_cart > 0 else 0
         
         # Resumen de tasas de abandono más visual
-        st.markdown("##### 📉 Resumen de Pérdidas por Etapa")
+        premium_header("Resumen de Pérdidas por Etapa", icon="fa-arrow-trend-down", color="#ff4b4b")
         col_ab1, col_ab2, col_ab3, col_ab4 = st.columns(4)
         with col_ab1:
             st.markdown(f"""
             <div style="text-align:center; padding:10px; background:#F4F7FE; border-radius:10px;">
-                <div style="font-size:2rem; color:#4318FF;">👥</div>
+                <div style="font-size:2rem; color:#00f2ff;">👥</div>
                 <div style="font-size:0.8rem; color:#A3AED0;">SESIONES</div>
-                <div style="font-size:1.2rem; font-weight:700; color:#2B3674;">{total_sessions:,.0f}</div>
+                <div style="font-size:1.2rem; font-weight:700; color:#FFFFFF;">{total_sessions:,.0f}</div>
             </div>
             """, unsafe_allow_html=True)
         with col_ab2:
@@ -2186,7 +1850,7 @@ def view_traffic(df_orders_all, df_ga_all, df_ga_traffic_all, df_fb_all):
             <div style="text-align:center; padding:10px; background:#E6FBF5; border-radius:10px;">
                 <div style="font-size:2rem; color:#05CD99;">💰</div>
                 <div style="font-size:0.8rem; color:#A3AED0;">COMPRADORES</div>
-                <div style="font-size:1.2rem; font-weight:700; color:#2B3674;">{total_buyers:,.0f}</div>
+                <div style="font-size:1.2rem; font-weight:700; color:#FFFFFF;">{total_buyers:,.0f}</div>
                 <div style="font-size:0.7rem; color:#05CD99;">{rate_overall:.2f}% conversión</div>
             </div>
             """, unsafe_allow_html=True)
@@ -2224,7 +1888,7 @@ def view_traffic(df_orders_all, df_ga_all, df_ga_traffic_all, df_fb_all):
         with col2:
             st.caption("💡 Después de configurar, ejecuta: `python etl/main.py`")
     
-    st.markdown("---")
+    premium_divider()
     
     # === GRÁFICO DIRECTO DE VISITAS (Carga directa de DB) ===
     try:
@@ -2263,7 +1927,7 @@ def view_traffic(df_orders_all, df_ga_all, df_ga_traffic_all, df_fb_all):
                     y=df_direct_filtered['UsuariosActivos'],
                     mode='lines',
                     name='Usuarios Activos',
-                    line=dict(color='#4318FF', width=2.5, shape='spline'),
+                    line=dict(color='#00f2ff', width=2.5, shape='spline'),
                     fill='tozeroy',
                     fillcolor='rgba(67, 24, 255, 0.05)',
                     hovertemplate='<b>%{x|%d %b %Y}</b><br>Usuarios: <b>%{y:,.0f}</b><extra></extra>'
@@ -2302,12 +1966,12 @@ def view_traffic(df_orders_all, df_ga_all, df_ga_traffic_all, df_fb_all):
                                 showarrow=True,
                                 arrowhead=2,
                                 arrowsize=0.8,
-                                arrowcolor=date_info.get('color', '#4318FF'),
+                                arrowcolor=date_info.get('color', '#00f2ff'),
                                 ax=20,
                                 ay=-45,
-                                font=dict(size=9, color=date_info.get('color', '#4318FF')),
+                                font=dict(size=9, color=date_info.get('color', '#00f2ff')),
                                 bgcolor='rgba(255,255,255,0.95)',
-                                bordercolor=date_info.get('color', '#4318FF'),
+                                bordercolor=date_info.get('color', '#00f2ff'),
                                 borderwidth=1,
                                 borderpad=3
                             )
@@ -2324,14 +1988,14 @@ def view_traffic(df_orders_all, df_ga_all, df_ga_traffic_all, df_fb_all):
                         tickformat='%d %b',
                         title='',
                         showgrid=False,
-                        tickfont=dict(size=11, color='#2B3674'),
+                        tickfont=dict(size=11, color='#FFFFFF'),
                         tickangle=-30
                     ),
                     yaxis=dict(
                         title='',
                         showgrid=True,
                         gridcolor='rgba(163, 174, 208, 0.2)',
-                        tickfont=dict(size=11, color='#2B3674')
+                        tickfont=dict(size=11, color='#FFFFFF')
                     ),
                     showlegend=False,
                     dragmode=False,
@@ -2350,7 +2014,7 @@ def view_traffic(df_orders_all, df_ga_all, df_ga_traffic_all, df_fb_all):
         st.error(f"Error cargando datos: {e}")
 
     # Origen del Tráfico
-    st.markdown("#### Origen del Tráfico")
+    premium_header("Origen del Tráfico", icon="fa-chevron-right", color="var(--primary-neon)")
     if not df_ga_traffic.empty and 'Fuente' in df_ga_traffic.columns:
         df_ga_traffic['Fuente_Norm'] = df_ga_traffic['Fuente'].apply(normalize_traffic_source)
         summary = df_ga_traffic.groupby('Fuente_Norm')['Sesiones'].sum().reset_index()
@@ -2383,7 +2047,7 @@ def view_traffic(df_orders_all, df_ga_all, df_ga_traffic_all, df_fb_all):
                     y=0.5,
                     xanchor="left",
                     x=1.05,
-                    font=dict(size=11, color='#2B3674'),
+                    font=dict(size=11, color='#FFFFFF'),
                     bgcolor='rgba(255, 255, 255, 0.95)',
                     borderwidth=0
                 ),
@@ -2397,20 +2061,20 @@ def view_traffic(df_orders_all, df_ga_all, df_ga_traffic_all, df_fb_all):
         st.info("Datos de tráfico no disponibles")
     
     # Páginas Más Visitadas    
-    st.markdown("#### 📄 Páginas Más Visitadas")
+    premium_header("Páginas Más Visitadas", icon="fa-file-lines", color="var(--text-muted)")
     try:
         df_pages = load_data('ga4_pages', DATABASE_ANALYTICS)
         if not df_pages.empty:
             top_pages = df_pages.groupby('Pagina')['Vistas'].sum().sort_values(ascending=False).head(8).sort_values(ascending=True).reset_index()
             fig_p = px.bar(top_pages, x='Vistas', y='Pagina', orientation='h', text='Vistas')
-            fig_p.update_traces(marker_color='#4318FF', textposition='outside')
+            fig_p.update_traces(marker_color='#00f2ff', textposition='outside')
             fig_p.update_layout(template='plotly_white', paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)', height=400, margin=dict(l=0, r=80, t=0, b=0), dragmode=False)
             st.plotly_chart(fig_p, use_container_width=True, config=PLOTLY_CONFIG)
     except:
         pass
 
-    st.markdown("---")
-    st.markdown("---")
+    premium_divider()
+    premium_divider()
     st.markdown("### 📱 Redes Sociales (Facebook)")
     
     if not df_fb.empty:
@@ -2420,7 +2084,7 @@ def view_traffic(df_orders_all, df_ga_all, df_ga_traffic_all, df_fb_all):
         has_followers = 'page_followers' in available_cols
         
         if has_fans or has_followers:
-            st.markdown("#### 📈 Crecimiento de la Comunidad")
+            premium_header("Crecimiento de la Comunidad", icon="fa-arrow-trend-up", color="#00ffb3")
             st.caption("Evolución histórica de seguidores y fans")
             
             # fig_fb = go.Figure() # Chart removed by user request
@@ -2440,14 +2104,14 @@ def view_traffic(df_orders_all, df_ga_all, df_ga_traffic_all, df_fb_all):
                     metric_card("Total Seguidores", f"{latest_followers:,.0f}", icon="fa-users", color="#05CD99")
             
             # Restore charts for impressions and engagement
-            st.markdown("#### Desempeño de Contenido")
+            premium_header("Desempeño de Contenido", icon="fa-chevron-right", color="var(--primary-neon)")
             fig_fb_metrics = go.Figure()
             if 'page_impressions' in available_cols:
                 fig_fb_metrics.add_trace(go.Scatter(
                     x=df_fb['date'], 
                     y=df_fb['page_impressions'], 
                     name='Impresiones',
-                    line=dict(color='#4318FF', width=3),
+                    line=dict(color='#00f2ff', width=3),
                     fill='tozeroy',
                     fillcolor='rgba(67, 24, 255, 0.1)'
                 ))
@@ -2473,7 +2137,7 @@ def view_traffic(df_orders_all, df_ga_all, df_ga_traffic_all, df_fb_all):
             # Fallback if old data format
             fig_fb = go.Figure()
             if 'page_impressions' in available_cols:
-                fig_fb.add_trace(go.Scatter(x=df_fb['date'], y=df_fb['page_impressions'], name='Impresiones', line=dict(color='#4318FF')))
+                fig_fb.add_trace(go.Scatter(x=df_fb['date'], y=df_fb['page_impressions'], name='Impresiones', line=dict(color='#00f2ff')))
             if 'page_engaged_users' in available_cols:
                 fig_fb.add_trace(go.Scatter(x=df_fb['date'], y=df_fb['page_engaged_users'], name='Engagement', line=dict(color='#FFB547')))
             
@@ -2543,7 +2207,7 @@ def view_inventory(df_orders_all, df_items_all):
     # ═══════════════════════════════════════════════════════════════════
     col1, col2, col3, col4 = st.columns(4)
     with col1:
-        metric_card("Total Productos", f"{total_products}", icon="fa-boxes-stacked", color="#4318FF")
+        metric_card("Total Productos", f"{total_products}", icon="fa-boxes-stacked", color="#00f2ff")
     with col2:
         metric_card("Unidades en Stock", f"{total_units_in_stock:,}", icon="fa-cubes", color="#05CD99", help_text="Total de unidades disponibles")
     with col3:
@@ -2558,22 +2222,22 @@ def view_inventory(df_orders_all, df_items_all):
     with col6:
         metric_card("Stock Bajo", f"{low_stock_count}", icon="fa-bell", color="#FFB547", help_text="Por debajo del umbral")
     with col7:
-        metric_card("En Backorder", f"{on_backorder}", icon="fa-clock", color="#6AD2FF", help_text="Pendiente de reposición")
+        metric_card("En Backorder", f"{on_backorder}", icon="fa-clock", color="#00f2ff", help_text="Pendiente de reposición")
     with col8:
         avg_stock = df_products[df_products['stock_qty_safe'] > 0]['stock_qty_safe'].mean()
-        metric_card("Stock Promedio", f"{avg_stock:.1f}" if not pd.isna(avg_stock) else "0", icon="fa-chart-simple", color="#4318FF", help_text="Unidades promedio por producto")
+        metric_card("Stock Promedio", f"{avg_stock:.1f}" if not pd.isna(avg_stock) else "0", icon="fa-chart-simple", color="#00f2ff", help_text="Unidades promedio por producto")
     
-    st.markdown("---")
+    premium_divider()
     
     # ═══════════════════════════════════════════════════════════════════
     # SECCIÓN: DISTRIBUCIÓN DE STOCK POR ESTADO
     # ═══════════════════════════════════════════════════════════════════
-    st.markdown("#### 📊 Distribución del Inventario")
+    premium_header("Distribución del Inventario", icon="fa-chart-simple", color="var(--primary-neon)")
     
     col_chart1, col_chart2 = st.columns(2)
     
     with col_chart1:
-        st.markdown("##### Estado del Stock")
+        premium_header("Estado del Stock", icon="fa-chevron-right", color="var(--text-muted)")
         stock_status_counts = df_products['stock_status'].value_counts().reset_index()
         stock_status_counts.columns = ['Estado', 'Cantidad']
         
@@ -2585,7 +2249,7 @@ def view_inventory(df_orders_all, df_items_all):
         }
         stock_status_counts['Estado'] = stock_status_counts['Estado'].map(lambda x: status_names.get(x, x))
         
-        colors_status = ['#05CD99', '#EE5D50', '#6AD2FF']
+        colors_status = ['#05CD99', '#EE5D50', '#00f2ff']
         
         fig_status = px.pie(
             stock_status_counts, 
@@ -2612,7 +2276,7 @@ def view_inventory(df_orders_all, df_items_all):
         st.plotly_chart(fig_status, use_container_width=True, config=PLOTLY_CONFIG)
     
     with col_chart2:
-        st.markdown("##### Stock por Rangos de Unidades")
+        premium_header("Stock por Rangos de Unidades", icon="fa-chevron-right", color="var(--text-muted)")
         # Clasificar productos por cantidad de stock
         def classify_stock(qty):
             if qty == 0:
@@ -2635,7 +2299,7 @@ def view_inventory(df_orders_all, df_items_all):
         stock_ranges['order'] = stock_ranges['Rango'].apply(lambda x: range_order.index(x) if x in range_order else 99)
         stock_ranges = stock_ranges.sort_values('order')
         
-        colors_ranges = ['#EE5D50', '#FFB547', '#6AD2FF', '#05CD99', '#4318FF']
+        colors_ranges = ['#EE5D50', '#FFB547', '#00f2ff', '#05CD99', '#00f2ff']
         
         fig_ranges = px.bar(
             stock_ranges,
@@ -2659,12 +2323,12 @@ def view_inventory(df_orders_all, df_items_all):
         )
         st.plotly_chart(fig_ranges, use_container_width=True, config=PLOTLY_CONFIG)
     
-    st.markdown("---")
+    premium_divider()
     
     # ═══════════════════════════════════════════════════════════════════
     # SECCIÓN: TABLA COMPLETA DE PRODUCTOS CON STOCK
     # ═══════════════════════════════════════════════════════════════════
-    st.markdown("#### 📋 Inventario Completo de Productos")
+    premium_header("Inventario Completo de Productos", icon="fa-list-check", color="var(--primary-neon)")
     st.caption("Todos los productos con sus cantidades en stock actuales")
     
     # Preparar datos para la tabla
@@ -2777,17 +2441,17 @@ def view_inventory(df_orders_all, df_items_all):
             use_container_width=True
         )
     
-    st.markdown("---")
+    premium_divider()
     
     # ═══════════════════════════════════════════════════════════════════
     # SECCIÓN: TOP 10 PRODUCTOS CON MÁS STOCK
     # ═══════════════════════════════════════════════════════════════════
-    st.markdown("#### 📦 Top 15 Productos por Stock Disponible")
+    premium_header("Top 15 Productos por Stock Disponible", icon="fa-box-open", color="var(--primary-neon)")
     
     col_top1, col_top2 = st.columns(2)
     
     with col_top1:
-        st.markdown("##### Mayor Cantidad en Stock")
+        premium_header("Mayor Cantidad en Stock", icon="fa-chevron-right", color="var(--text-muted)")
         top_stock = df_products.nlargest(15, 'stock_qty_safe')[['name', 'stock_qty_safe', 'inventory_value']].copy()
         top_stock = top_stock[top_stock['stock_qty_safe'] > 0]
         
@@ -2799,7 +2463,7 @@ def view_inventory(df_orders_all, df_items_all):
                 orientation='h',
                 text='stock_qty_safe',
                 color='stock_qty_safe',
-                color_continuous_scale=['#6AD2FF', '#4318FF']
+                color_continuous_scale=['#00f2ff', '#00f2ff']
             )
             fig_top_stock.update_traces(texttemplate='%{text:.0f} un.', textposition='outside')
             fig_top_stock.update_layout(
@@ -2818,7 +2482,7 @@ def view_inventory(df_orders_all, df_items_all):
             st.info("No hay productos con stock disponible")
     
     with col_top2:
-        st.markdown("##### Mayor Valor en Inventario")
+        premium_header("Mayor Valor en Inventario", icon="fa-chevron-right", color="var(--text-muted)")
         top_value = df_products.nlargest(15, 'inventory_value')[['name', 'inventory_value', 'stock_qty_safe', 'price_safe']].copy()
         top_value = top_value[top_value['inventory_value'] > 0]
         
@@ -2848,12 +2512,12 @@ def view_inventory(df_orders_all, df_items_all):
         else:
             st.info("No hay productos con valor en inventario")
     
-    st.markdown("---")
+    premium_divider()
     
     # ═══════════════════════════════════════════════════════════════════
     # SECCIÓN: ALERTAS DE STOCK BAJO
     # ═══════════════════════════════════════════════════════════════════
-    st.markdown("#### 🔔 Alertas de Stock Bajo")
+    premium_header("Alertas de Stock Bajo", icon="fa-bell", color="#ff6b6b")
     st.caption("Productos que requieren atención inmediata o reposición")
     
     # Productos con stock bajo (<=5 unidades y >0)
@@ -2903,12 +2567,12 @@ def view_inventory(df_orders_all, df_items_all):
     else:
         st.success("✅ No hay productos con stock bajo. ¡Inventario en buen estado!")
     
-    st.markdown("---")
+    premium_divider()
     
     # ═══════════════════════════════════════════════════════════════════
     # SECCIÓN: PRODUCTOS AGOTADOS
     # ═══════════════════════════════════════════════════════════════════
-    st.markdown("#### ❌ Productos Agotados")
+    premium_header("Productos Agotados", icon="fa-circle-xmark", color="#ff4b4b")
     st.caption("Productos sin stock disponible - Pérdidas potenciales de ventas")
     
     out_of_stock_products = df_products[df_products['stock_status'] == 'outofstock'].copy()
@@ -2926,7 +2590,7 @@ def view_inventory(df_orders_all, df_items_all):
         
         # Visualizar pérdida potencial
         if out_of_stock_products['potential_monthly_loss'].sum() > 0:
-            st.markdown("##### 💸 Top 10 Productos Agotados por Pérdida Potencial Mensual")
+            premium_header("Top 10 Productos Agotados por Pérdida Potencial Mensual", icon="fa-chevron-right", color="var(--text-muted)")
             top_losses = out_of_stock_products.nlargest(10, 'potential_monthly_loss')
             
             fig_loss = px.bar(
@@ -2955,12 +2619,12 @@ def view_inventory(df_orders_all, df_items_all):
     else:
         st.success("✅ No hay productos agotados. ¡Excelente gestión de inventario!")
     
-    st.markdown("---")
+    premium_divider()
     
     # ═══════════════════════════════════════════════════════════════════
     # SECCIÓN: ANÁLISIS DE ROTACIÓN
     # ═══════════════════════════════════════════════════════════════════
-    st.markdown("#### 🔄 Análisis de Rotación de Inventario")
+    premium_header("Análisis de Rotación de Inventario", icon="fa-rotate", color="var(--secondary-neon)")
     st.caption("Velocidad de venta vs stock disponible - Basado en el periodo seleccionado")
     
     if not df_items.empty:
@@ -2998,7 +2662,7 @@ def view_inventory(df_orders_all, df_items_all):
         col1, col2 = st.columns(2)
         
         with col1:
-            st.markdown("##### 🔥 Productos de Alta Rotación")
+            premium_header("Productos de Alta Rotación", icon="fa-chevron-right", color="var(--text-muted)")
             st.caption("Mayor velocidad de venta - requieren reposición frecuente")
             
             high_rotation = rotation_df[rotation_df['rotation_class'] == '🔥 ALTA'].copy()
@@ -3017,7 +2681,7 @@ def view_inventory(df_orders_all, df_items_all):
                 st.info("No hay productos de alta rotación en el periodo")
         
         with col2:
-            st.markdown("##### 🐌 Productos de Baja Rotación")
+            premium_header("Productos de Baja Rotación", icon="fa-chevron-right", color="var(--text-muted)")
             st.caption("Menor velocidad de venta - posible sobrestock")
             
             low_rotation = rotation_df[rotation_df['rotation_class'] == '🐌 BAJA'].copy()
@@ -3036,11 +2700,11 @@ def view_inventory(df_orders_all, df_items_all):
                 st.info("No hay productos de baja rotación")
         
         # Gráfico de rotación
-        st.markdown("##### 📊 Distribución de Rotación de Productos")
+        premium_header("Distribución de Rotación de Productos", icon="fa-chevron-right", color="var(--text-muted)")
         rotation_summary = rotation_df['rotation_class'].value_counts().reset_index()
         rotation_summary.columns = ['Clase', 'Cantidad']
         
-        colors_rotation = {'🔥 ALTA': '#EE5D50', '📊 MEDIA': '#FFB547', '🐌 BAJA': '#4318FF'}
+        colors_rotation = {'🔥 ALTA': '#EE5D50', '📊 MEDIA': '#FFB547', '🐌 BAJA': '#00f2ff'}
         
         fig_rotation = px.pie(
             rotation_summary, 
@@ -3124,18 +2788,18 @@ def view_customer_analytics(df_orders_all):
     
     col1, col2, col3, col4, col5 = st.columns(5)
     with col1:
-        metric_card("Total Clientes", f"{total_customers:,}", icon="fa-users", color="#4318FF")
+        metric_card("Total Clientes", f"{total_customers:,}", icon="fa-users", color="#00f2ff")
     with col2:
         metric_card("Registrados", f"{registered:,}", icon="fa-user-check", color="#05CD99")
     with col3:
         metric_card("Invitados", f"{guests:,}", icon="fa-user-secret", color="#FFB547")
     with col4:
-        metric_card("Recurrentes", f"{repeat_customers:,}", icon="fa-rotate", color="#6AD2FF",
+        metric_card("Recurrentes", f"{repeat_customers:,}", icon="fa-rotate", color="#00f2ff",
                    help_text="Clientes con más de 1 compra")
     with col5:
         metric_card("Ticket Promedio", f"${avg_order_value:,.0f}", icon="fa-receipt", color="#EE5D50")
     
-    st.markdown("---")
+    premium_divider()
     
     # === NUEVA LÓGICA: PODIO + TABLA DETALLADA ===
     
@@ -3186,11 +2850,11 @@ def view_customer_analytics(df_orders_all):
                         box-shadow: 0 4px 6px rgba(0,0,0,0.1);
                     ">
                         <div style="font-size: 2rem;">{medals[i]}</div>
-                        <div style="font-weight: bold; color: #2B3674; margin-top: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{name}</div>
+                        <div style="font-weight: bold; color: #FFFFFF; margin-top: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{name}</div>
                         <div style="font-size: 1.2rem; color: {colors[i]}; font-weight: 700;">{val_display}</div>
                     </div>
                     """, unsafe_allow_html=True)
-        st.markdown("---")
+        premium_divider()
     
     # Tabla Detallada
     st.markdown(f"#### 📋 Detalle Top {top_n}")
@@ -3214,10 +2878,10 @@ def view_customer_analytics(df_orders_all):
         hide_index=True
     )
     
-    st.markdown("---")
+    premium_divider()
     
     # === DIRECTORIO COMPLETO DE CLIENTES CON BUSCADOR ===
-    st.markdown("#### 📋 Directorio Completo de Clientes")
+    premium_header("Directorio Completo de Clientes", icon="fa-list-check", color="var(--primary-neon)")
     st.caption("Busca por nombre, email, ciudad o teléfono")
     
     # Buscador
@@ -3299,7 +2963,7 @@ def view_customer_analytics(df_orders_all):
         }
     )
     
-    st.markdown("---")
+    premium_divider()
     
     # (Distribución de Frecuencia eliminada por solicitud del usuario)
 
@@ -3332,7 +2996,7 @@ def view_all_orders(df_orders_all):
             label_visibility="collapsed"
         )
     
-    st.markdown("---")
+    premium_divider()
     
     # Mapear estados a español con emojis
     status_map = {
@@ -3398,7 +3062,7 @@ def view_all_orders(df_orders_all):
                 st.error(f"Error generando PDF: {str(e)}")
             st.markdown("</div>", unsafe_allow_html=True)
         
-        st.markdown("---")
+        premium_divider()
         
         # Day summary metrics
         date_display = datetime.strptime(selected_date, '%Y-%m-%d').strftime('%A %d de %B, %Y').title()
@@ -3406,16 +3070,16 @@ def view_all_orders(df_orders_all):
         
         col1, col2, col3, col4 = st.columns(4)
         with col1:
-            metric_card("Total Pedidos", f"{len(df_day):,}", icon="fa-receipt", color="#4318FF")
+            metric_card("Total Pedidos", f"{len(df_day):,}", icon="fa-receipt", color="#00f2ff")
         with col2:
             metric_card("Ventas del Día", f"${df_day['total'].sum():,.0f}", icon="fa-dollar-sign", color="#05CD99")
         with col3:
             metric_card("Ticket Promedio", f"${df_day['total'].mean():,.0f}" if len(df_day) > 0 else "$0", icon="fa-chart-line", color="#FFB547")
         with col4:
             shipping_total = df_day['shipping_total'].sum() if 'shipping_total' in df_day.columns else 0
-            metric_card("Costo Envío", f"${shipping_total:,.0f}", icon="fa-truck", color="#6AD2FF")
+            metric_card("Costo Envío", f"${shipping_total:,.0f}", icon="fa-truck", color="#00f2ff")
         
-        st.markdown("---")
+        premium_divider()
         
         # Detail view for each order
         for idx, (_, order) in enumerate(df_day.sort_values('order_id').iterrows()):
@@ -3444,7 +3108,7 @@ def view_all_orders(df_orders_all):
                     st.markdown(f"- **Ubicación:** {location}")
                     st.markdown(f"- **Envío:** {shipping_method}")
                     
-                    st.markdown("---")
+                    premium_divider()
                     st.markdown("**💰 Totales**")
                     total = float(order.get('total', 0))
                     shipping_cost = float(order.get('shipping_total', 0) or 0)
@@ -3478,7 +3142,7 @@ def view_all_orders(df_orders_all):
                         st.caption("Sin detalle de productos")
                 
                 # Download individual order PDF button
-                st.markdown("---")
+                premium_divider()
                 try:
                     from utils.export import ReportExporter
                     
@@ -3517,16 +3181,16 @@ def view_all_orders(df_orders_all):
         # Métricas resumen
         col1, col2, col3, col4 = st.columns(4)
         with col1:
-            metric_card("Total Órdenes", f"{len(df_orders):,}", icon="fa-receipt", color="#4318FF")
+            metric_card("Total Órdenes", f"{len(df_orders):,}", icon="fa-receipt", color="#00f2ff")
         with col2:
             metric_card("Ventas Totales", f"${df_orders['total'].sum():,.0f}", icon="fa-dollar-sign", color="#05CD99")
         with col3:
             metric_card("Ticket Promedio", f"${df_orders['total'].mean():,.0f}", icon="fa-chart-line", color="#FFB547")
         with col4:
             completed = len(df_orders[df_orders['status'].isin(['completed', 'completoenviado'])])
-            metric_card("Completadas", f"{completed:,}", icon="fa-check-circle", color="#6AD2FF")
+            metric_card("Completadas", f"{completed:,}", icon="fa-check-circle", color="#00f2ff")
         
-        st.markdown("---")
+        premium_divider()
         
         # Preparar DataFrame para mostrar
         display_df = df_orders.copy()
@@ -3607,7 +3271,7 @@ def view_all_orders(df_orders_all):
         )
         
         # Opción de exportar
-        st.markdown("---")
+        premium_divider()
         col1, col2 = st.columns([3, 1])
         with col2:
             csv = display_df[['order_id', 'date_created', 'customer_name', 'customer_email', 'status', 'total', 'Ubicación']].to_csv(index=False)
@@ -3677,12 +3341,12 @@ def view_taxes(df_orders_all):
     ticket_promedio = total_ventas / total_ordenes if total_ordenes > 0 else 0
     
     # KPIs principales
-    st.markdown("---")
-    st.markdown("#### 📊 Resumen Fiscal del Año")
+    premium_divider()
+    premium_header("Resumen Fiscal del Año", icon="fa-chart-simple", color="var(--primary-neon)")
     
     col1, col2, col3, col4 = st.columns(4)
     with col1:
-        metric_card("Ventas Brutas", f"${total_ventas:,.0f}", icon="fa-cash-register", color="#4318FF", help_text="Total facturado")
+        metric_card("Ventas Brutas", f"${total_ventas:,.0f}", icon="fa-cash-register", color="#00f2ff", help_text="Total facturado")
     with col2:
         metric_card("Ventas Netas", f"${ventas_netas:,.0f}", icon="fa-file-invoice-dollar", color="#05CD99", help_text="Sin IVA")
     with col3:
@@ -3690,10 +3354,10 @@ def view_taxes(df_orders_all):
     with col4:
         metric_card("Total Órdenes", f"{total_ordenes:,}", icon="fa-receipt", color="#FFB547")
     
-    st.markdown("---")
+    premium_divider()
     
     # === SECCIÓN: ESTIMADOR IMPUESTO A LA RENTA ===
-    st.markdown("#### 💼 Estimador Impuesto a la Renta (Primera Categoría)")
+    premium_header("Estimador Impuesto a la Renta (Primera Categoría)", icon="fa-chevron-right", color="var(--primary-neon)")
     st.caption("Cálculo aproximado basado en margen de utilidad estimado")
     
     # Controles para el estimador
@@ -3760,17 +3424,17 @@ def view_taxes(df_orders_all):
             "Carga Tributaria Total", 
             f"${carga_total:,.0f}", 
             icon="fa-scale-balanced", 
-            color="#2B3674",
+            color="#FFFFFF",
             help_text="IVA + Imp. Renta"
         )
     
-    st.markdown("---")
+    premium_divider()
     
     # Desglose mensual
     col_table, col_chart = st.columns([1, 1])
     
     with col_table:
-        st.markdown("#### 📅 Desglose Mensual")
+        premium_header("Desglose Mensual", icon="fa-chevron-right", color="var(--primary-neon)")
         
         df_year['mes'] = df_year['date_created'].dt.month
         df_year['mes_nombre'] = df_year['date_created'].dt.strftime('%B')
@@ -3802,7 +3466,7 @@ def view_taxes(df_orders_all):
         st.dataframe(format_empty_cells(display_monthly), use_container_width=True, height=430, hide_index=True)
     
     with col_chart:
-        st.markdown("#### 📈 Evolución Mensual")
+        premium_header("Evolución Mensual", icon="fa-arrow-trend-up", color="#00ffb3")
         
         fig = go.Figure()
         fig.add_trace(go.Bar(
@@ -3832,10 +3496,10 @@ def view_taxes(df_orders_all):
         )
         st.plotly_chart(fig, use_container_width=True, config=PLOTLY_CONFIG)
     
-    st.markdown("---")
+    premium_divider()
     
     # Fechas importantes
-    st.markdown("#### 🗓️ Fechas Importantes de Declaración")
+    premium_header("Fechas Importantes de Declaración", icon="fa-calendar-day", color="var(--primary-neon)")
     
     col1, col2 = st.columns(2)
     
@@ -3870,10 +3534,10 @@ def view_taxes(df_orders_all):
     elif today.month == 3:
         st.info("ℹ️ **Próximo mes es Abril** - Prepárate para la Operación Renta. Revisa tus documentos.")
     
-    st.markdown("---")
+    premium_divider()
     
     # Exportar datos para el SII
-    st.markdown("#### 📥 Exportar Datos para el SII")
+    premium_header("Exportar Datos para el SII", icon="fa-download", color="var(--primary-neon)")
     
     col1, col2, col3 = st.columns(3)
     
@@ -3989,17 +3653,8 @@ def main():
                 logo_data = base64.b64encode(f.read()).decode()
             st.markdown(
                 f"""
-                <div style='text-align: center; padding: 20px 15px 25px 15px;'>
-                    <div style="
-                        background: rgba(255, 255, 255, 0.05);
-                        backdrop-filter: blur(20px);
-                        border: 1px solid rgba(255, 255, 255, 0.1);
-                        border-radius: 16px;
-                        padding: 15px;
-                        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-                    ">
-                        <img src="data:image/png;base64,{logo_data}" style="max-width: 80%; height: auto; filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));">
-                    </div>
+                <div class="sidebar-logo">
+                    <img src="data:image/png;base64,{logo_data}">
                 </div>
                 """,
                 unsafe_allow_html=True
@@ -4201,7 +3856,7 @@ def main():
         # Set selected_view based on session state
         selected_view = st.session_state.selected_view_key
         
-        st.markdown("---")
+        premium_divider()
         
         # Configuration status and link to setup
         config_status = check_configuration_status()
@@ -4224,7 +3879,7 @@ def main():
                 st.switch_page("pages/setup.py")
         
         
-        st.markdown("---")
+        premium_divider()
         
         # ETL Refresh Button with options
         st.markdown("### 🔄 Actualización de Datos")
@@ -4255,7 +3910,7 @@ def main():
                 progress_placeholder = st.empty()
                 
                 with progress_placeholder.container():
-                    st.markdown("#### Progreso de Extracción")
+                    premium_header("Progreso de Extracción", icon="fa-chevron-right", color="var(--primary-neon)")
                     
                     # Check configuration
                     config_check = check_configuration_status()
@@ -4272,7 +3927,7 @@ def main():
                         st.warning("⚠️ No hay servicios configurados para extraer datos")
                     else:
                         st.info(f"📊 Extractores a ejecutar: {', '.join(extractors_to_run)}")
-                        st.markdown("---")
+                        premium_divider()
                         
                         # Create status containers for each extractor
                         extractor_status = {}
@@ -4287,7 +3942,7 @@ def main():
                                 with col2:
                                     extractor_progress[extractor] = st.empty()
                         
-                        st.markdown("---")
+                        premium_divider()
                         
                         # Run extractors and update status in real-time
                         import subprocess
@@ -4342,8 +3997,8 @@ def main():
                                                                    text="Completado")
                         
                         # Final summary
-                        st.markdown("---")
-                        st.markdown("#### Resumen Final")
+                        premium_divider()
+                        premium_header("Resumen Final", icon="fa-chevron-right", color="var(--primary-neon)")
                         
                         all_success = all(r.get('status') == 'success' for r in results.values())
                         
@@ -4368,7 +4023,7 @@ def main():
                             st.markdown("- Revisa las credenciales en la página de Configuración")
                             st.markdown("- Consulta los logs en `logs/etl.log`")
 
-        st.markdown("---")
+        premium_divider()
         
         # ===== v1.2: EXPORT SECTION =====
         st.markdown("### 📥 Exportar")
@@ -4448,7 +4103,7 @@ def main():
             )
             st.success("✅ ¡Reporte listo para descargar!")
         
-        st.markdown("---")
+        premium_divider()
         
         # ===== v1.2: PERIOD COMPARISON =====
         st.markdown("### 📈 Comparar")
