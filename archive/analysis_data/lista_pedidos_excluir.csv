@@ -1,0 +1,146 @@
+order_id,fecha,total,status,customer_id,customer_name,payment_method
+56329,2025-01-03,3880.0,completoenviado,0,,other
+56334,2025-01-06,563000.0,completoenviado,0,Puerto Keto spa,bacs
+56333,2025-01-06,44900.0,completoenviado,0,Marcela Almonacid Mansilla,transbank_webpay_plus_rest
+56321,2025-01-08,306000.0,completed,0,SOC. COM. HOLZ Y COMPAÑÍA,bacs
+56344,2025-01-08,61890.0,completoenviado,0,Laura San Emeterio,bacs
+56350,2025-01-09,121000.0,completoenviado,0,Marcela Cristina Bernal Bernal,bacs
+56363,2025-01-13,740000.0,completoenviado,0,PUERTO KETO SPA,bacs
+56366,2025-01-14,132000.0,completoenviado,0,Carolina Simpson,bacs
+56374,2025-01-16,26400.0,completoenviado,0,Jaime Muñoz,bacs
+56378,2025-01-18,185250.0,completoenviado,0,Isabel Ruz,bacs
+56384,2025-01-20,83505.0,completoenviado,5796,Joselyn Narea,bacs
+56385,2025-01-20,78000.0,completed,0,almacen de delia,
+56406,2025-01-22,348954.0,completoenviado,2393,Carla Canessa,transbank_webpay_plus_rest
+56412,2025-01-25,118000.0,completed,0,Holz,bacs
+56417,2025-01-27,102211.0,completoenviado,3434,Patrícia Flores Valderia,transbank_webpay_plus_rest
+56419,2025-01-27,69500.0,completoenviado,0,Ana Luisa toro,bacs
+56425,2025-01-28,293900.0,completoenviado,0,Cynthia Ferrada (EmporioAlgramo),bacs
+56423,2025-01-28,29359.0,completed,6288,Alejandra Salgado,bacs
+56429,2025-01-30,252000.0,completoenviado,0,PUERTO KETO SPA,bacs
+56435,2025-02-03,466800.0,completoenviado,0,COMERCIALIZADORA EMILIA CARDENAS,bacs
+56450,2025-02-03,222000.0,completoenviado,0,PUERTO KETO SPA,bacs
+56445,2025-02-03,61250.0,completoenviado,0,María Soledad Olea,transbank_webpay_plus_rest
+56454,2025-02-04,436400.0,completoenviado,0,LA TRANQUERA SPA,bacs
+56470,2025-02-07,322100.0,completoenviado,0,Amigranel,bacs
+56474,2025-02-07,106380.0,completoenviado,0,Marcela Cristina Bernal Bernal,bacs
+56472,2025-02-07,70600.0,completoenviado,6383,BAQER SpA,bacs
+56477,2025-02-10,59328.0,completoenviado,0,Marina Martínez,bacs
+56482,2025-02-16,8492.0,completed,6288,Alejandra Salgado,bacs
+56484,2025-02-17,295190.0,completoenviado,0,Pamela Sobarzo,bacs
+56487,2025-02-18,66600.0,completoenviado,0,isidora saravia,bacs
+56488,2025-02-18,3825.0,completed,6288,Alejandra Salgado,bacs
+56497,2025-02-19,79401.0,completoenviado,2237,Eduardo Sandoval,transbank_webpay_plus_rest
+56506,2025-02-21,1233.0,completed,6288,Alejandra Salgado,bacs
+56525,2025-03-02,103930.0,completoenviado,544,Marcelo Germani G.,bacs
+56528,2025-03-03,592000.0,completoenviado,0,PUERTO KETO SPA,bacs
+56529,2025-03-03,525380.0,completoenviado,0,LA TRANQUERA SPA,bacs
+56533,2025-03-03,67350.0,completoenviado,0,ERIKA ARIAS,bacs
+56336,2025-03-05,2850000.0,completoenviado,0,chocolates Brussels SPA,bacs
+56547,2025-03-05,534330.0,completoenviado,0,LUISA LAGOS,bacs
+56561,2025-03-11,263000.0,completoenviado,0,Christian Franco Palma,bacs
+56560,2025-03-11,166840.0,completoenviado,0,Linda Muñoz,bacs
+56581,2025-03-14,39100.0,completoenviado,0,Francisco Morales,transbank_webpay_plus_rest
+56590,2025-03-17,149200.0,completoenviado,6383,BAQER SpA,bacs
+56597,2025-03-18,527420.0,completoenviado,0,Cynthia Ferrada,bacs
+56594,2025-03-18,376058.0,completoenviado,0,COMERCIALIZADORA EMILIA CARDENAS,bacs
+56593,2025-03-18,117850.0,completoenviado,0,PUERTO KETO SPA,bacs
+56599,2025-03-18,61530.0,completoenviado,0,Luis Arriagada,bacs
+56596,2025-03-18,40200.0,completed,649,KetoCracia EIRL,bacs
+56598,2025-03-18,10000.0,completed,0,Alexandra Estrella,bacs
+56603,2025-03-19,62700.0,completoenviado,0,Francisca Peña,transbank_webpay_plus_rest
+56615,2025-03-24,177530.0,completoenviado,0,Maria Isabel Gaete,bacs
+56616,2025-03-24,167150.0,completoenviado,0,Hector Fuentealba Fuentes,bacs
+56614,2025-03-24,133000.0,completoenviado,0,Delia riquielme vera,bacs
+56618,2025-03-24,24000.0,completed,0,catalogo spa,bacs
+56619,2025-03-25,302600.0,completoenviado,0,LA TRANQUERA SPA,bacs
+56628,2025-03-28,119480.0,completoenviado,0,Marcela Cristina Bernal Bernal,bacs
+56629,2025-03-28,45100.0,completoenviado,6042,Francisca Salgado,bacs
+56630,2025-03-29,52070.0,completoenviado,5079,Daniel Miranda,transbank_webpay_plus_rest
+56636,2025-03-31,257000.0,completoenviado,0,Carolina Simpson,bacs
+56645,2025-04-02,105000.0,completoenviado,0,LOL SPA,bacs
+56644,2025-04-02,23000.0,completed,649,KetoCracia EIRL,bacs
+56652,2025-04-04,14800.0,completed,0,juan Gauna,bacs
+56658,2025-04-07,165500.0,completoenviado,0,comercializadora emilia cardenas,bacs
+56656,2025-04-07,152000.0,completoenviado,0,olivia betancourt,bacs
+56660,2025-04-07,110340.0,completoenviado,0,Antonia Iturriaga,bacs
+56659,2025-04-07,69000.0,completoenviado,0,Laura San Emeterio,bacs
+56655,2025-04-07,23000.0,completed,649,KetoCracia EIRL,bacs
+56663,2025-04-09,58160.0,completoenviado,0,Francisca Merino Gonzalez,transbank_webpay_plus_rest
+56670,2025-04-10,105690.0,completoenviado,0,BAQER SPA,bacs
+56669,2025-04-10,47880.0,completoenviado,0,mama,bacs
+56673,2025-04-11,157500.0,completoenviado,0,Mazapan Santa Ignacia Spa,bacs
+56674,2025-04-14,122500.0,completed,0,SOC. COM. HOLZ Y COMPAÑÍA,bacs
+56678,2025-04-15,73200.0,completoenviado,0,Erika Arias,bacs
+56679,2025-04-15,20000.0,completoenviado,0,Nelly Vázquez,bacs
+56775,2025-04-16,60780.0,completed,0,MAMA,bacs
+56837,2025-04-21,137950.0,completoenviado,0,BAQER SPA,bacs
+56842,2025-04-22,361400.0,completoenviado,0,LA TRANQUERA SPA,bacs
+56869,2025-04-30,84000.0,completed,0,ambrosian spa,bacs
+56868,2025-04-30,74880.0,completed,0,almacen de delia,
+56910,2025-05-15,345000.0,completoenviado,0,Mazapan Santa Ignacia Spa,bacs
+56909,2025-05-15,263400.0,completoenviado,0,Marcela Cristina Bernal Bernal,bacs
+56908,2025-05-15,250000.0,completoenviado,0,LUISA LAGOS,bacs
+56926,2025-05-19,149860.0,completoenviado,0,BAQER SPA,bacs
+56941,2025-05-23,25800.0,completed,0,Rosa Maldonado,transbank_webpay_plus_rest
+56952,2025-05-27,71340.0,completoenviado,0,Luisa Ibarra Caneo,bacs
+56965,2025-05-29,119643.0,completoenviado,0,Patricia Flores V.,transbank_webpay_plus_rest
+56993,2025-06-04,124403.0,completoenviado,0,Antonia Iturriaga,bacs
+57006,2025-06-08,115650.0,completoenviado,3844,Paulina Campos Marchant,transbank_webpay_plus_rest
+57017,2025-06-10,531000.0,completoenviado,0,COMERCIALIZADORA EMILIA CARDENAS,bacs
+57051,2025-06-16,181990.0,completoenviado,0,BAQER SPA,bacs
+57057,2025-06-19,70250.0,completoenviado,0,Laura San Emeterio,bacs
+57064,2025-06-22,42160.0,completoenviado,3212,DAFNE YURETIC MENDOZA,bacs
+57074,2025-06-24,396300.0,completoenviado,0,LA TRANQUERA SPA,bacs
+57096,2025-06-30,30700.0,completoenviado,0,Nicolás Rodríguez Novoa,bacs
+57101,2025-07-01,449450.0,completoenviado,0,LUISA LAGOS,bacs
+57119,2025-07-04,77200.0,completoenviado,418,Marina Martínez,bacs
+57116,2025-07-04,40750.0,completed,0,Yohana Castro grandon,bacs
+57141,2025-07-11,246120.0,completoenviado,0,Marcela Cristina Bernal Bernal,bacs
+57140,2025-07-11,160000.0,completoenviado,0,LA TRANQUERA SPA,bacs
+57158,2025-07-15,142830.0,completoenviado,0,Loreto del Valle,
+57157,2025-07-15,115500.0,completoenviado,0,olivia betancourt,
+57154,2025-07-15,78000.0,completed,0,Almacen de delia,
+57155,2025-07-15,23500.0,completed,0,mama iglesia,
+57173,2025-07-21,29230.0,completed,0,mama,bacs
+57179,2025-07-22,184460.0,completoenviado,0,BAQER SPA,bacs
+57181,2025-07-22,90336.0,completoenviado,0,Bernardita Davila,transbank_webpay_plus_rest
+57194,2025-07-26,62670.0,completoenviado,0,Ximena Lagos,
+57221,2025-08-02,55440.0,completoenviado,0,Comercializadora J y V spa,bacs
+57226,2025-08-04,225131.0,completed,0,CAMILA SALGADO,bacs
+57224,2025-08-04,160650.0,completoenviado,0,BAQER SPA,bacs
+57232,2025-08-05,334000.0,completoenviado,0,COMERCIALIZADORA EMILIA CARDENAS,bacs
+57277,2025-08-19,72470.0,completoenviado,0,Francisca Gili,
+57283,2025-08-20,212000.0,completoenviado,0,LUISA LAGOS,
+57296,2025-08-24,30760.0,completoenviado,6198,cristobal hurtado azocar,
+57307,2025-08-26,156000.0,completed,0,Delia riquielme vera,
+57304,2025-08-26,128250.0,completoenviado,0,Gabriela Vargas Muñoz.,
+57309,2025-08-27,88000.0,completed,0,Wenelen spa,
+57311,2025-08-27,40750.0,completoenviado,6563,Doris Soto Aguirre,
+57325,2025-09-02,20230.0,completoenviado,0,Evelyn barquin,
+57329,2025-09-03,643000.0,completoenviado,0,PUERTO KETO SPA,
+57349,2025-09-08,308000.0,completoenviado,0,PUERTO KETO SPA,
+57370,2025-09-22,68400.0,completoenviado,6383,BAQER SpA,
+57369,2025-09-22,60630.0,completoenviado,0,Gustavo Ahumada,
+57390,2025-09-29,405700.0,completoenviado,0,LA TRANQUERA SPA,
+57394,2025-09-29,148350.0,completoenviado,0,Osom asombrosamente natural,
+57395,2025-09-29,134800.0,completoenviado,0,LUISA LAGOS,
+57400,2025-10-01,359650.0,completoenviado,0,Marcela Cristina Bernal Bernal,
+57402,2025-10-01,85000.0,completoenviado,0,olivia betancourt,
+57403,2025-10-01,26950.0,completed,0,~Karina,
+57405,2025-10-02,42320.0,completoenviado,649,KetoCracia EIRL,
+57421,2025-10-06,100890.0,completoenviado,0,Carolina Simpson,bacs
+57432,2025-10-09,293600.0,completoenviado,0,LA TRANQUERA SPA,bacs
+57438,2025-10-13,67060.0,completoenviado,0,Ximena Lagos,bacs
+57436,2025-10-13,1200.0,completed,0,Joyce Iglesia,
+57466,2025-10-21,504000.0,completoenviado,0,PUERTO KETO SPA,bacs
+57528,2025-11-05,33230.0,completed,0,tia fanny,bacs
+57543,2025-11-10,85000.0,completoenviado,0,Joselyn Narea,bacs
+57510,2025-11-10,80400.0,completoenviado,0,Erika Arias,bacs
+57560,2025-11-12,104570.0,completoenviado,0,Yerty Machuca Chávez,transbank_webpay_plus_rest
+57569,2025-11-17,479180.0,completoenviado,0,LA TRANQUERA SPA,bacs
+57592,2025-11-28,31900.0,completed,0,Gastronómica Lorena Guillier Muñoz EIRL,bacs
+57621,2025-12-09,351000.0,completed,0,Servicios alimenticios delicioso Ltda,bacs
+57623,2025-12-09,118250.0,completoenviado,0,Erika Arias,bacs
+57628,2025-12-10,79000.0,completed,0,Olivia Betancourt,bacs
+57661,2025-12-19,382500.0,completoenviado,0,PUERTO KETO SPA,bacs

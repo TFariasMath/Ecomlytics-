@@ -1,0 +1,18 @@
+COMPARACION date_created vs date_paid
+======================================================================
+
+1. ACTUAL (date_created):
+  2024: $ 103,792,522 | Diff: $ +25,755,340
+  2025: $  64,555,423 | Diff: $ +11,647,487
+
+2. PROPUESTO (date_paid):
+  2024: $  75,683,229 | Diff: $  -2,353,953
+  2025: $  45,094,138 | Diff: $  -7,813,798
+
+3. WC CSV:
+  2024: $  78,037,182
+  2025: $  52,907,936
+
+CONCLUSION:
+Si date_paid tiene valores cercanos a $0, significa que
+la mayoría de pedidos NO tienen date_paid registrado.

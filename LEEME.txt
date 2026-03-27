@@ -1,0 +1,98 @@
+════════════════════════════════════════════════════════════════
+  📊 ANALYTICS PIPELINE - INSTALACIÓN RÁPIDA
+════════════════════════════════════════════════════════════════
+
+¡Bienvenido! Esta aplicación te permite visualizar datos de tu
+tienda online y analytics en un dashboard interactivo.
+
+════════════════════════════════════════════════════════════════
+  📋 REQUISITOS PREVIOS
+════════════════════════════════════════════════════════════════
+
+1. Python 3.10 o superior
+   
+   👉 Descarga desde: https://www.python.org/downloads/
+   
+   ⚠️  IMPORTANTE: Durante la instalación de Python, marca la
+       opción "Add Python to PATH"
+
+2. Reinicia tu computadora después de instalar Python
+
+════════════════════════════════════════════════════════════════
+  🚀 INSTALACIÓN (3 PASOS)
+════════════════════════════════════════════════════════════════
+
+PASO 1: Haz doble click en:
+   
+   SETUP.bat
+
+PASO 2: Sigue las instrucciones en pantalla
+
+PASO 3: ¡Listo! La aplicación se instalará automáticamente
+
+════════════════════════════════════════════════════════════════
+  ▶️  INICIAR LA APLICACIÓN
+════════════════════════════════════════════════════════════════
+
+Haz doble click en:
+
+   LAUNCH.bat
+
+La aplicación se abrirá en tu navegador en:
+http://localhost:8501
+
+════════════════════════════════════════════════════════════════
+  ⚙️  CONFIGURACIÓN INICIAL
+════════════════════════════════════════════════════════════════
+
+La primera vez que uses la aplicación:
+
+1. En el sidebar, haz click en "⚙️ Configurar Credenciales"
+
+2. Ingresa tus credenciales:
+   • WooCommerce (URL, Consumer Key, Consumer Secret)
+   • Google Analytics (archivo JSON, Property ID)
+   • Facebook (opcional)
+
+3. Prueba la conexión con "🔍 Test Connection"
+
+4. Guarda con "💾 Save Configuration"
+
+5. Reinicia la aplicación
+
+════════════════════════════════════════════════════════════════
+  📚 DOCUMENTACIÓN COMPLETA
+════════════════════════════════════════════════════════════════
+
+Para más información, lee:
+
+   • QUICK_START.md  - Guía de inicio rápido
+   • README.md       - Documentación completa
+   • docs/           - Guías detalladas
+
+════════════════════════════════════════════════════════════════
+  🆘 AYUDA
+════════════════════════════════════════════════════════════════
+
+Si tienes problemas:
+
+1. Lee QUICK_START.md (sección "Solución de Problemas")
+2. Verifica que Python está instalado correctamente
+3. Asegúrate de marcar "Add Python to PATH" durante instalación
+
+════════════════════════════════════════════════════════════════
+  ✅ CHECKLIST
+════════════════════════════════════════════════════════════════
+
+□ Python 3.10+ instalado
+□ Reinicié mi computadora
+□ Ejecuté SETUP.bat
+□ Ejecuté LAUNCH.bat
+□ Configuré mis credenciales
+□ Veo mis datos en el dashboard
+
+════════════════════════════════════════════════════════════════
+
+¡Que disfrutes tu dashboard! 🎉
+
+════════════════════════════════════════════════════════════════

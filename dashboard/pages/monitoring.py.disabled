@@ -1,0 +1,272 @@
+"""
+ETL Monitoring Dashboard
+
+Displays execution history and metrics for all ETL extractors.
+Provides transparency and debugging capabilities.
+"""
+
+import streamlit as st
+import pandas as pd
+import plotly.express as px
+import plotly.graph_objects as go
+from datetime import datetime, timedelta
+import sqlite3
+import os
+import sys
+
+# Add project root to path
+project_root = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
+sys.path.append(project_root)
+
+# Page config
+st.set_page_config(
+    page_title="Monitoreo ETL",
+    page_icon="📊",
+    layout="wide"
+)
+
+# Back to dashboard button in sidebar
+with st.sidebar:
+    st.markdown("### 🏠 Navegación")
+    if st.button("⬅️ Volver al Dashboard", use_container_width=True, type="primary"):
+        st.switch_page("../app_woo_v2.py")
+    
+    st.markdown("---")
+
+st.title("📊 Monitoreo de Extracciones ETL")
+st.markdown("Historial y métricas de ejecuciones de extractores")
+
+# Load data from monitoring database
+monitoring_db = os.path.join(project_root, 'data', 'monitoring.db')
+
+if not os.path.exists(monitoring_db):
+    st.info("🔍 No hay historial de ejecuciones aún.")
+    st.markdown("""
+    El historial se generará automáticamente cuando ejecutes los extractores ETL:
+    - Desde el dashboard: Click en "🔄 Actualizar Datos" → "Extraer datos nuevos"
+    - Desde línea de comandos: `python etl/extract_woocommerce.py`
+    """)
+    st.stop()
+
+try:
+    # Connect and load data directly with sqlite3
+    conn = sqlite3.connect(monitoring_db)
+    
+    query = """
+    SELECT 
+        extractor_name,
+        start_time,
+        end_time,
+        status,
+        rows_extracted,
+        duration_seconds,
+        error_message
+    FROM etl_executions 
+    ORDER BY start_time DESC 
+    LIMIT 200
+    """
+    
+    df = pd.read_sql(query, conn)
+    conn.close()
+    
+    if df.empty:
+        st.info("🔍 No hay registros de ejecución en la base de datos.")
+        st.stop()
+    
+    # Convert timestamps
+    df['start_time'] = pd.to_datetime(df['start_time'])
+    df['end_time'] = pd.to_datetime(df['end_time'])
+    
+    # === METRICS ROW ===
+    col1, col2, col3, col4 = st.columns(4)
+    
+    with col1:
+        last_exec = df.iloc[0]['start_time'].strftime('%d/%m/%Y %H:%M')
+        st.metric("Última Ejecución", last_exec)
+    
+    with col2:
+        success_count = (df['status'] == 'success').sum()
+        total_count = len(df)
+        success_rate = (success_count / total_count) * 100 if total_count > 0 else 0
+        st.metric(
+            "Tasa de Éxito",
+            f"{success_rate:.1f}%",
+            delta=f"{success_count}/{total_count}"
+        )
+    
+    with col3:
+        avg_duration = df['duration_seconds'].mean()
+        st.metric(
+            "Duración Promedio",
+            f"{avg_duration:.0f}s",
+            delta=f"Max: {df['duration_seconds'].max():.0f}s"
+        )
+    
+    with col4:
+        total_rows = df['rows_extracted'].sum()
+        st.metric(
+            "Total Registros",
+            f"{total_rows:,}",
+            delta=f"Promedio: {df['rows_extracted'].mean():.0f}/ejecución"
+        )
+    
+    st.markdown("---")
+    
+    # === FILTERS ===
+    col1, col2, col3 = st.columns(3)
+    
+    with col1:
+        extractor_filter = st.multiselect(
+            "Filtrar por Extractor",
+            options=df['extractor_name'].unique(),
+            default=df['extractor_name'].unique(),
+            help="Selecciona qué extractores mostrar"
+        )
+    
+    with col2:
+        status_filter = st.multiselect(
+            "Filtrar por Estado",
+            options=df['status'].unique(),
+            default=df['status'].unique(),
+            help="Filtra por estado de ejecución"
+        )
+    
+    with col3:
+        days_back = st.slider(
+            "Últimos N días",
+            min_value=1,
+            max_value=30,
+            value=7,
+            help="Mostrar datos de los últimos N días"
+        )
+    
+    # Apply filters
+    cutoff_date = datetime.now() - timedelta(days=days_back)
+    df_filtered = df[
+        (df['extractor_name'].isin(extractor_filter)) &
+        (df['status'].isin(status_filter)) &
+        (df['start_time'] >= cutoff_date)
+    ]
+    
+    if df_filtered.empty:
+        st.warning("No hay datos que coincidan con los filtros seleccionados")
+        st.stop()
+    
+    # === CHARTS ===
+    st.markdown("### 📈 Análisis de Ejecuciones")
+    
+    tab1, tab2, tab3 = st.tabs(["Por Tiempo", "Por Volumen", "Por Estado"])
+    
+    with tab1:
+        # Timeline chart
+        fig_timeline = px.scatter(
+            df_filtered,
+            x='start_time',
+            y='duration_seconds',
+            color='extractor_name',
+            size='rows_extracted',
+            hover_data=['status', 'rows_extracted', 'error_message'],
+            title="Duración de Ejecuciones en el Tiempo",
+            labels={
+                'start_time': 'Fecha/Hora',
+                'duration_seconds': 'Duración (segundos)',
+                'extractor_name': 'Extractor'
+            }
+        )
+        fig_timeline.update_layout(height=400)
+        st.plotly_chart(fig_timeline, use_container_width=True)
+    
+    with tab2:
+        # Volume chart
+        fig_volume = px.bar(
+            df_filtered.groupby('extractor_name')['rows_extracted'].sum().reset_index(),
+            x='extractor_name',
+            y='rows_extracted',
+            title="Total de Registros Extraídos por Extractor",
+            labels={
+                'extractor_name': 'Extractor',
+                'rows_extracted': 'Registros Totales'
+            },
+            color='extractor_name'
+        )
+        fig_volume.update_layout(height=400)
+        st.plotly_chart(fig_volume, use_container_width=True)
+    
+    with tab3:
+        # Status distribution
+        status_counts = df_filtered['status'].value_counts()
+        fig_status = go.Figure(data=[go.Pie(
+            labels=status_counts.index,
+            values=status_counts.values,
+            hole=0.4
+        )])
+        fig_status.update_layout(
+            title="Distribución de Estados",
+            height=400
+        )
+        st.plotly_chart(fig_status, use_container_width=True)
+    
+    # === EXECUTION TABLE ===
+    st.markdown("### 📋 Historial Detallado")
+    
+    # Format for display
+    df_display = df_filtered.copy()
+    df_display['start_time'] = df_display['start_time'].dt.strftime('%Y-%m-%d %H:%M:%S')
+    df_display['status_icon'] = df_display['status'].map({
+        'success': '✅',
+        'error': '❌',
+        'warning': '⚠️'
+    })
+    df_display['status_display'] = df_display['status_icon'] + ' ' + df_display['status']
+    
+    # Select columns
+    display_cols = ['start_time', 'extractor_name', 'status_display', 'rows_extracted', 'duration_seconds']
+    df_table = df_display[display_cols].copy()
+    df_table.columns = ['Fecha/Hora', 'Extractor', 'Estado', 'Registros', 'Duración (s)']
+    
+    st.dataframe(
+        df_table,
+        use_container_width=True,
+        hide_index=True
+    )
+    
+    # === RECENT ERRORS ===
+    errors = df_filtered[df_filtered['status'] == 'error']
+    
+    if not errors.empty:
+        st.markdown("### ⚠️ Errores Recientes")
+        
+        for idx, row in errors.head(5).iterrows():
+            with st.expander(
+                f"❌ {row['extractor_name']} - {row['start_time'].strftime('%d/%m/%Y %H:%M')}"
+            ):
+                st.error(f"**Error**: {row['error_message']}")
+                st.markdown(f"**Duración**: {row['duration_seconds']:.1f}s")
+                st.markdown(f"**Fecha**: {row['start_time'].strftime('%Y-%m-%d %H:%M:%S')}")
+    
+    # === EXPORT DATA ===
+    st.markdown("---")
+    col1, col2 = st.columns([3, 1])
+    
+    with col2:
+        if st.button("📥 Exportar Historial", use_container_width=True):
+            # Export to CSV
+            csv = df_filtered.to_csv(index=False)
+            st.download_button(
+                label="💾 Descargar CSV",
+                data=csv,
+                file_name=f"etl_monitoring_{datetime.now().strftime('%Y%m%d')}.csv",
+                mime="text/csv",
+                use_container_width=True
+            )
+
+except Exception as e:
+    st.error(f"Error cargando datos de monitoreo: {str(e)}")
+    st.info("""
+    **Posibles causas**:
+    - La base de datos monitoring.db no existe
+    - El esquema de la tabla etl_executions ha cambiado
+    - Falta ejecutar los extractores al menos una vez
+    
+    **Solución**: Ejecuta los extractores ETL desde el dashboard o línea de comandos.
+    """)

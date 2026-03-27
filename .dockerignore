@@ -1,0 +1,99 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+venv/
+env/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Databases (will be mounted as volumes)
+data/*.db
+*.db
+
+# Logs (will be mounted as volumes)
+logs/
+*.log
+
+# Backups (will be mounted as volumes)
+backups/
+security_backups/
+
+# Exports (will be mounted as volumes)
+exports/
+
+# Test artifacts
+.pytest_cache/
+.coverage
+htmlcov/
+*.cover
+.hypothesis/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# Docker
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Documentation (not needed in container)
+docs/
+*.md
+!README.md
+
+# Scripts that shouldn't be in container
+test_*.py
+analyze_*.py
+calc_*.py
+check_*.py
+compare_*.py
+deep_*.py
+find_*.py
+generate_*.py
+get_*.py
+identify_*.py
+quick_*.py
+verify_*.py
+view_*.py
+resumen_*.py
+update_*.py
+
+# CSV files (temporary data)
+*.csv
+
+# Temp directories
+temp/
+
+# Test files
+tests/
+
+# CI/CD
+.github/
+.gitlab-ci.yml
+
+# Large credential files (should be mounted as secrets)
+config/credentials/*.json
+*.json
+!package.json

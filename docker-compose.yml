@@ -1,0 +1,95 @@
+version: '3.8'
+
+services:
+  # Main Analytics Pipeline Application
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: analytics-pipeline
+    ports:
+      - "8501:8501"
+    environment:
+      # WooCommerce Configuration
+      - WC_URL=${WC_URL}
+      - WC_CONSUMER_KEY=${WC_CONSUMER_KEY}
+      - WC_CONSUMER_SECRET=${WC_CONSUMER_SECRET}
+      
+      # Google Analytics Configuration
+      - GA4_KEY_FILE=${GA4_KEY_FILE}
+      - GA4_PROPERTY_ID=${GA4_PROPERTY_ID}
+      
+      # Facebook Configuration
+      - FB_ACCESS_TOKEN=${FB_ACCESS_TOKEN}
+      - FB_PAGE_ID=${FB_PAGE_ID}
+      
+      # Database Configuration
+      - DB_TYPE=sqlite
+      
+      # Application Settings
+      - PYTHONUNBUFFERED=1
+      - LOG_LEVEL=INFO
+    volumes:
+      # Persist data
+      - ./data:/app/data
+      - ./logs:/app/logs
+      - ./backups:/app/backups
+      - ./exports:/app/exports
+      # Mount credentials (if using local JSON files)
+      - ./config/credentials:/app/config/credentials:ro
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8501/_stcore/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - analytics-network
+
+  # Optional: PostgreSQL Database (for production)
+  # Uncomment to use PostgreSQL instead of SQLite
+  # postgres:
+  #   image: postgres:15-alpine
+  #   container_name: analytics-postgres
+  #   environment:
+  #     - POSTGRES_DB=analytics
+  #     - POSTGRES_USER=analytics_user
+  #     - POSTGRES_PASSWORD=${DB_PASSWORD}
+  #   volumes:
+  #     - postgres_data:/var/lib/postgresql/data
+  #   ports:
+  #     - "5432:5432"
+  #   restart: unless-stopped
+  #   networks:
+  #     - analytics-network
+
+  # Optional: ETL Scheduler (for automated data extraction)
+  # scheduler:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   container_name: analytics-scheduler
+  #   command: python scheduler_daemon.py
+  #   environment:
+  #     - WC_URL=${WC_URL}
+  #     - WC_CONSUMER_KEY=${WC_CONSUMER_KEY}
+  #     - WC_CONSUMER_SECRET=${WC_CONSUMER_SECRET}
+  #     - GA4_KEY_FILE=${GA4_KEY_FILE}
+  #     - GA4_PROPERTY_ID=${GA4_PROPERTY_ID}
+  #   volumes:
+  #     - ./data:/app/data
+  #     - ./logs:/app/logs
+  #   depends_on:
+  #     - app
+  #   restart: unless-stopped
+  #   networks:
+  #     - analytics-network
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  analytics-network:
+    driver: bridge

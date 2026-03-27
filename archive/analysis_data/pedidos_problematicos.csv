@@ -1,0 +1,30 @@
+order_id,fecha,total,status,customer_name,reason
+56329,2025-01-03,3880.0,completoenviado,,top_value_on_discrepant_day
+56334,2025-01-06,563000.0,completoenviado,Puerto Keto spa,top_value_on_discrepant_day
+56333,2025-01-06,44900.0,completoenviado,Marcela Almonacid Mansilla,top_value_on_discrepant_day
+56321,2025-01-08,306000.0,completed,SOC. COM. HOLZ Y COMPAÑÍA,top_value_on_discrepant_day
+56344,2025-01-08,61890.0,completoenviado,Laura San Emeterio,top_value_on_discrepant_day
+56350,2025-01-09,121000.0,completoenviado,Marcela Cristina Bernal Bernal,top_value_on_discrepant_day
+56363,2025-01-13,740000.0,completoenviado,PUERTO KETO SPA,top_value_on_discrepant_day
+56366,2025-01-14,132000.0,completoenviado,Carolina Simpson,top_value_on_discrepant_day
+56374,2025-01-16,26400.0,completoenviado,Jaime Muñoz,top_value_on_discrepant_day
+56378,2025-01-18,185250.0,completoenviado,Isabel Ruz,top_value_on_discrepant_day
+56384,2025-01-20,83505.0,completoenviado,Joselyn Narea,top_value_on_discrepant_day
+56385,2025-01-20,78000.0,completed,almacen de delia,top_value_on_discrepant_day
+56406,2025-01-22,348954.0,completoenviado,Carla Canessa,top_value_on_discrepant_day
+56412,2025-01-25,118000.0,completed,Holz,top_value_on_discrepant_day
+56417,2025-01-27,102211.0,completoenviado,Patrícia Flores Valderia,top_value_on_discrepant_day
+56419,2025-01-27,69500.0,completoenviado,Ana Luisa toro,top_value_on_discrepant_day
+56425,2025-01-28,293900.0,completoenviado,Cynthia Ferrada (EmporioAlgramo),top_value_on_discrepant_day
+56423,2025-01-28,29359.0,completed,Alejandra Salgado,top_value_on_discrepant_day
+56429,2025-01-30,252000.0,completoenviado,PUERTO KETO SPA,top_value_on_discrepant_day
+56435,2025-02-03,466800.0,completoenviado,COMERCIALIZADORA EMILIA CARDENAS,top_value_on_discrepant_day
+56450,2025-02-03,222000.0,completoenviado,PUERTO KETO SPA,top_value_on_discrepant_day
+56445,2025-02-03,61250.0,completoenviado,María Soledad Olea,top_value_on_discrepant_day
+56454,2025-02-04,436400.0,completoenviado,LA TRANQUERA SPA,top_value_on_discrepant_day
+56470,2025-02-07,322100.0,completoenviado,Amigranel,top_value_on_discrepant_day
+56474,2025-02-07,106380.0,completoenviado,Marcela Cristina Bernal Bernal,top_value_on_discrepant_day
+56472,2025-02-07,70600.0,completoenviado,BAQER SpA,top_value_on_discrepant_day
+56477,2025-02-10,59328.0,completoenviado,Marina Martínez,top_value_on_discrepant_day
+56482,2025-02-16,8492.0,completed,Alejandra Salgado,top_value_on_discrepant_day
+56484,2025-02-17,295190.0,completoenviado,Pamela Sobarzo,top_value_on_discrepant_day

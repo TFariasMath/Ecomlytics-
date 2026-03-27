@@ -1,0 +1,35 @@
+================================================================================
+ANALISIS DE CSV DE WOOCOMMERCE
+================================================================================
+
+2024:
+  Pedidos:             986
+  Ventas brutas:  $  77,532,036
+  Devoluciones:   $      42,820
+  Cupones:        $     284,814
+  Ventas netas:   $  77,218,242
+  EnvÝo:          $     818,940
+  VENTAS TOTALES: $  78,037,182
+
+2025:
+  Pedidos:             637
+  Ventas brutas:  $  52,589,036
+  Devoluciones:   $      71,700
+  Cupones:        $     380,100
+  Ventas netas:   $  52,137,236
+  EnvÝo:          $     770,700
+  VENTAS TOTALES: $  52,907,936
+
+================================================================================
+COMPARACION CON BASE DE DATOS
+================================================================================
+
+2024:
+  WC CSV Ventas:  $     78,037,182  (986 pedidos)
+  BD Ventas:      $    103,792,522  (1129 pedidos)
+  Diferencia:     $    +25,755,340  (+143 pedidos)
+
+2025:
+  WC CSV Ventas:  $     52,907,936  (637 pedidos)
+  BD Ventas:      $     64,555,423  (682 pedidos)
+  Diferencia:     $    +11,647,487  (+45 pedidos)

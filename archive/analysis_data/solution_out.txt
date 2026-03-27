@@ -1,0 +1,15 @@
+================================================================================
+SOLUCION FINAL
+================================================================================
+
+WOOCOMMERCE CSV (FUENTE DE VERDAD):
+  2024: $     78,037,182  (986 pedidos)
+  2025: $     52,907,936  (637 pedidos)
+
+BASE DE DATOS (ACTUAL):
+  2024: $    103,792,522  (1129.0 pedidos)
+Traceback (most recent call last):
+  File "C:\Users\USER\Documents\Maquina de produccion masiva\ExtraerDatosGoogleAnalitics\final_solution.py", line 45, in <module>
+    print(f"         Diferencia: ${diff_v:>+15,.0f}  ({diff_p:+d} pedidos)")
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: Unknown format code 'd' for object of type 'float'
